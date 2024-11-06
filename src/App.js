@@ -1,12 +1,19 @@
 import React from 'react';
-import LoginForm from './LoginForm';
+import Sidebar from './components/Sidebar';
+import TopBar from './components/TopBar';
+import Content from './components/Content';
+import './App.css';
 
-function App() {
+const App = () => {
   return (
-    <div>
-      <LoginForm />
+    <div className="app-container">
+      <Sidebar />
+      <div className="main-content">
+        <TopBar />
+        <Content />
+      </div>
     </div>
   );
-}
+};
 
 export default App;
