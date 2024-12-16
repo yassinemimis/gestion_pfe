@@ -1,0 +1,146 @@
+
+  
+  .row {
+    display: flex; /* Pour placer deux champs côte à côte */
+    justify-content: space-between;
+    margin-bottom: 15px; /* Espacement entre les lignes */
+  }
+  
+  .column {
+    flex: 1; /* Chaque champ occupe 50% de l'espace disponible */
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+  }
+  
+  .column:last-child {
+    margin-right: 0; /* Évite l'espace supplémentaire à droite */
+  }
+  
+  label {
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 5px;
+  }
+  
+  input[type="text"],
+  input[type="email"],
+  input[type="number"] {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+  }
+  
+  input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+  }
+  
+  .custom-table button {
+    width: 10%;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 10px;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .custom-table button:hover {
+    background-color: #0056b3;
+  }
+  
+  select {
+    padding: 10px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    background-color: white;
+    cursor: pointer;
+  }
+  
+  select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+  }
+
+input[type="date"] {
+    padding: 4px;
+    font-size: 16px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    outline: none;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+    width: 100%; 
+  }
+  
+
+  input[type="date"]:hover {
+    border-color: #007bff;
+  }
+  
+ 
+  input[type="date"]:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 4px rgba(0, 123, 255, 0.5);
+  }
+  
+
+  input[type="date"]::-webkit-calendar-picker-indicator {
+    background: transparent;
+    cursor: pointer;
+    padding: 5px;
+  }
+  
+
+  input[type="date"]::-webkit-inner-spin-button,
+  input[type="date"]::-webkit-clear-button {
+    display: none;
+  }
+  /* Message général */
+  .message {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    opacity: 0;
+    animation: fadeInSlide 0.5s forwards;
+  }
+  
+  /* Animation */
+  @keyframes fadeInSlide {
+    from {
+      opacity: 0;
+      transform: translateY(-20px); 
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0); 
+    }
+  }
+  
+  /* Message de succès */
+  .message.success {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+  }
+  
+  /* Message d'erreur */
+  .message.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+  }
+  
+  

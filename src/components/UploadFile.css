@@ -1,0 +1,117 @@
+.container {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+  }
+  
+  .dropzone {
+    border: 2px dashed #ccc;
+    border-radius: 8px;
+    padding: 30px;
+    cursor: pointer;
+    background-color: #f9f9f9;
+    position: relative;
+  }
+  
+  .dropzone p {
+    font-size: 16px;
+    color: #333;
+  }
+  
+  .cloud-icon {
+    font-size: 40px;
+    margin-top: 10px;
+    color: #007bff;
+  }
+  
+  .progress-container {
+    display: flex;
+    align-items: center;
+    margin: 20px 0;
+  }
+  
+  .file-icon {
+    font-size: 30px;
+    margin-right: 10px;
+  }
+  
+  .progress-bar {
+    flex: 1;
+    height: 10px;
+    background: #ddd;
+    border-radius: 5px;
+    position: relative;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    background-color: #28a745;
+    border-radius: 5px;
+  }
+  
+  .url-section {
+    margin-top: 20px;
+    display: flex;
+    justify-content: space-between;
+  }
+  
+  .url-section input {
+    width: 80%;
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .url-section button {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .url-section button:hover {
+    background-color: #0056b3;
+  }
+  .messagee {
+    margin: 10px 0;
+    padding: 10px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    text-align: center;
+    opacity: 0;
+    animation: fadeInSlide 0.5s forwards; 
+  }
+  
+  /* Animation */
+  @keyframes fadeInSlide {
+    from {
+      opacity: 0;
+      transform: translateY(-20px); 
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0); 
+    }
+  }
+  
+  /* Message de succès */
+  .messagee.success {
+    color: #155724;
+    background-color: #d4edda;
+    border: 1px solid #c3e6cb;
+  }
+  
+  /* Message d'erreur */
+  .messagee.error {
+    color: #721c24;
+    background-color: #f8d7da;
+    border: 1px solid #f5c6cb;
+  }
+  
+  
