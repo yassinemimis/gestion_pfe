@@ -1,48 +1,12 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Table.css";
 
-const data = [
-  {
-    title: "Artificial Intelligence Project",
-    description: "A project",
-    supervisor: { name: "nnnnn", email: "example@email.com" },
-    status: "15/APR/2020",
-  },
-  {
-    title: "Artificial Intelligence Project",
-    description: "A project",
-    supervisor: { name: "Justin Septimus", email: "example@email.com" },
-    status: "15/APR/2020",
-  },
-  {
-    title: "Artificial Intelligence Project",
-    description: "A project",
-    supervisor: { name: "Justin Septimus", email: "example@email.com" },
-    status: "15/APR/2020",
-  },
-  {
-    title: "Artificial Intelligence Project",
-    description: "A project",
-    supervisor: { name: "Justin Septimus", email: "example@email.com" },
-    status: "15/APR/2020",
-  },
-  {
-    title: "Artificial Intelligence Project",
-    description: "A project",
-    supervisor: { name: "Justin Septimus", email: "example@email.com" },
-    status: "15/APR/2020",
-  },
-  {
-    title: "Artificial Intelligence Project",
-    description: "A project",
-    supervisor: { name: "Justin Septimus", email: "example@email.com" },
-    status: "15/APR/2020",
-  },
- 
-];
 
-const Table = () => {
+
+const Table = ({ onSwitchToForm }) => {
+  const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
+ 
     const [message, setMessage] = useState({ text: "", type: "" }); // Pour gérer le message (text et type)
     const handleSubmit = (e) => {
       e.preventDefault();
@@ -60,10 +24,42 @@ const Table = () => {
         setMessage({ text: "", type: "" });
       }, 3000);
     };
- 
-  const filteredData = data.filter((item) =>
-    item.supervisor.name.toLowerCase().includes(search.toLowerCase())
-  );
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await fetch("http://127.0.0.1:8000/api/teachers");
+          if (response.ok) {
+            const fetchedData = await response.json();
+            console.log("Fetched Data:", fetchedData);
+            setData(fetchedData); // تأكد من تخزين البيانات مباشرة
+          } else {
+            setMessage({
+              text: "Erreur lors de la récupération des données.",
+              type: "error",
+            });
+          }
+        } catch (error) {
+          console.error("Fetch Error:", error);
+          setMessage({
+            text: "Une erreur s'est produite. Veuillez réessayer.",
+            type: "error",
+          });
+        }
+      };
+  
+      fetchData();
+    }, []);
+  
+    const handleDelete = (id) => {
+      setData((prevData) => prevData.filter((item) => item.id_utilisateur !== id));
+    };
+    const handleEdit = (rowData) => {
+      onSwitchToForm(rowData); // تمرير بيانات الصف المحدد إلى النموذج
+    };
+    const filteredData = data.filter((item) =>
+      item.nom?.toLowerCase().includes(search.toLowerCase())
+    );
+  
 
   return (
     <div style={{ padding: "0%", width: "100%" }}>
@@ -98,21 +94,7 @@ const Table = () => {
               minWidth: "200px",
             }}
           />
-          <button
-            style={{
-              padding: "1%",
-              fontSize: "1vw",
-              backgroundColor: "#28a745",
-              color: "white",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-              flexShrink: "0", 
-            }}
-            onClick={() => alert("Filter Applied!")}
-          >
-            Filter
-          </button>
+          
         </div>
 
         {}
@@ -127,7 +109,7 @@ const Table = () => {
             cursor: "pointer",
             flexShrink: "0",
           }}
-          onClick={() => alert("Add New Project!")}
+          onClick={onSwitchToForm}
         >
           Add New Project
         </button>
@@ -146,32 +128,32 @@ const Table = () => {
 
           <thead>
             <tr>
-              <th style={styles.th}>noms</th>
-              <th style={styles.th}>prénoms</th>
-              <th style={styles.th}>options de master</th>
-              <th style={styles.th}>la moyenne générale </th>
-              <th style={styles.th}>Actions</th>
+            <th style={styles.th}>Nom</th>
+            <th style={styles.th}>Prenom</th>
+            <th style={styles.th}>Type Utilisateur</th>
+            <th style={styles.th}>Email</th>
+            <th style={styles.th}>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {filteredData.length > 0 ? (
-              filteredData.map((row, index) => (
-                <tr
-                  key={index}
-                  style={index % 2 === 0 ? styles.evenRow : styles.oddRow}
-                >
-                  <td style={styles.td}>{row.title}</td>
-                  <td style={styles.td}>{row.description}</td>
-                  <td style={styles.td}>
-                 
-                      {row.supervisor.name}
-                  </td>
-                  <td style={styles.td}>
-                  {row.status}          
-                  </td>
-                  <td style={styles.td}>
-                    <button style={styles.selectButton}>Edit</button>
-                    <button style={styles.viewButton} onClick={handleSubmit}>Delete</button>
+          {filteredData.length > 0 ? (
+            filteredData.map((row, index) => (
+              <tr
+                key={index}
+                style={index % 2 === 0 ? styles.evenRow : styles.oddRow}
+              >
+                <td style={styles.td}>{row.nom || "N/A"}</td>
+                <td style={styles.td}>{row.prenom || "N/A"}</td>
+                <td style={styles.td}>{row.type_utilisateur || "N/A"}</td>
+                <td style={styles.td}>{row.adresse_email || "N/A"}</td>
+                <td style={styles.td}>
+                  <button style={styles.selectButton}
+                  onClick={() => handleEdit(row)}
+                  >Edit</button>
+                    <button
+                    style={styles.viewButton}
+                    onClick={() => handleDelete(row.id_utilisateur)}
+                    >Delete</button>
 
                   </td>
                 </tr>
@@ -240,3 +222,16 @@ const styles = {
 };
 
 export default Table;
+
+
+
+
+
+
+
+
+
+
+
+
+

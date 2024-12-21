@@ -1,103 +1,129 @@
 import React, { useState } from "react";
-import "./FormEtud.css"; // Importation du CSS
+import axios from "axios";
+import "./FormEtud.css";
 
-const FormEtud = ({ onSubmit, initialData = {} }) => {
+const FormEtud = ({ data }) => {
   const [student, setStudent] = useState({
-    firstName: initialData.firstName || "",
-    lastName: initialData.lastName || "",
-    email: initialData.email || "",
-    average: initialData.average || "",
-    option: initialData.option || "",
+    nom: data.nom,
+    prenom: data.prenom,
+    adresse_email: data.adresse_email,
+    type_utilisateur: "etudiant",
+    intitule_option: "",
+    moyenne_m1: "",
   });
-
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+   const [message, setMessage] = useState({ text: "", type: "" }); 
   const handleChange = (e) => {
     const { name, value } = e.target;
     setStudent({ ...student, [name]: value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(student);
+    try {
+      if (data.id_utilisateur) {
+        await axios.put(`http://127.0.0.1:8000/api/teachers/${data.id_utilisateur}`, student);
+        setSuccessMessage("Les données ont été mises à jour avec succès!");
+        setErrorMessage(""); 
+      } else {
+    
+        await axios.post("http://127.0.0.1:8000/api/teachers", student);
+        setSuccessMessage("Les données ont été envoyées avec succès!");
+        setErrorMessage(""); 
+      }
+    
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setErrorMessage("Une erreur est survenue lors de l'envoi des données.");
+      setSuccessMessage(""); 
+    }
   };
 
   return (
-    <div className="custom-table"> 
-    <form onSubmit={handleSubmit}>
-      {/* Ligne 1 */}
-      <div className="row">
-        <div className="column">
-          <label htmlFor="firstName">Prénom :</label>
-          <input
-            type="text"
-            id="firstName"
-            name="firstName"
-            value={student.firstName}
-            onChange={handleChange}
-            required
-          />
+    <div className="custom-table">
+    
+        {message.text && (
+            <div className={`message ${message.type}`}>
+              {message.text}
+            </div>
+          )}
+      <form onSubmit={handleSubmit}>
+        {successMessage && <p className="success">{successMessage}</p>}
+        {errorMessage && <p className="error">{errorMessage}</p>}
+
+        <div className="row">
+          <div className="column">
+            <label htmlFor="nom">Prénom :</label>
+            <input
+              type="text"
+              id="nom"
+              name="nom"
+              value={student.nom}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="column">
+            <label htmlFor="prenom">Nom :</label>
+            <input
+              type="text"
+              id="prenom"
+              name="prenom"
+              value={student.prenom}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
 
-        <div className="column">
-          <label htmlFor="lastName">Nom :</label>
-          <input
-            type="text"
-            id="lastName"
-            name="lastName"
-            value={student.lastName}
-            onChange={handleChange}
-            required
-          />
-        </div>
-      </div>
-
-      {/* Ligne 2 */}
-      <div className="row">
-        <div className="column">
-          <label htmlFor="email">Email universitaire :</label>
-          <input
-            type="email"
-            id="email"
-            name="email"
-            value={student.email}
-            onChange={handleChange}
-            required
-          />
-        </div>
-
-        <div className="column">
-          <label htmlFor="average">Moyenne :</label>
-          <input
-            type="number"
-            step="0.01"
-            id="average"
-            name="average"
-            value={student.average}
-            onChange={handleChange}
-            required
-          />
-        </div>
-      </div>
-
-      {/* Ligne 3 */}
-      <div className="row">
-        <div className="column">
-          <label htmlFor="option">Option :</label>
-          <input
-            type="text"
-            id="option"
-            name="option"
-            value={student.option}
-            onChange={handleChange}
-            required
-          />
+        <div className="row">
+          <div className="column">
+            <label htmlFor="adresse_email">Email universitaire :</label>
+            <input
+              type="email"
+              id="adresse_email"
+              name="adresse_email"
+              value={student.adresse_email}
+              onChange={handleChange}
+              required
+            />
+          </div>
+          <div className="column">
+            <label htmlFor="moyenne_m1">Moyenne :</label>
+            <input
+              type="number"
+              step="0.01"
+              id="moyenne_m1"
+              name="moyenne_m1"
+              value={student.moyenne_m1}
+              onChange={handleChange}
+              required
+            />
+          </div>
         </div>
 
-        <div className="column"></div> {/* Colonne vide pour équilibrer */}
-      </div>
+        <div className="row">
+          <div className="column">
+            <label htmlFor="intitule_option">Option :</label>
+            <select
+              id="intitule_option"
+              name="intitule_option"
+              value={student.intitule_option}
+              onChange={handleChange}
+              required
+            >
+              <option value="" disabled>-- Sélectionnez un grade --</option>
+              <option value="1">IA</option>
+              <option value="2">GL</option>
+              <option value="3">SIC</option>
+              <option value="4">RSD</option>
+            </select>
+          </div>
+        </div>
 
-      {/* Bouton de soumission */}
-      <button type="submit">Soumettre</button>
-    </form>
+        <button type="submit">Soumettre</button>
+      </form>
     </div>
   );
 };
