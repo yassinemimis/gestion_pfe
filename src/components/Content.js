@@ -8,6 +8,7 @@ import Tablecomp from "./Tablecomp"
 import FormEtud from "./FormEtud"
 import FormComp from "./FormComp"
 import FormEnsg from './FormEnsg';
+import EmailTemplateManager from "./EmailTemplateManager"
 const Content = () => {
   const [activeComponent, setActiveComponent] = useState("Table"); // لتحديد المكوّن النشط
   const [data, setData] = useState(null); // لتخزين البيانات
@@ -20,9 +21,10 @@ const Content = () => {
   return (
     <main className="content">
       <div className="App">
-        {/* عرض المكوّن النشط بناءً على الحالة */}
+        {/* عرض المكوّن النشط بناءً على الحالة
         {activeComponent === "Table" && <Table onSwitchToForm={handleSwitchToForm} />}
-        {activeComponent === "FormEtud" && <FormEtud data={data} />}
+        {activeComponent === "FormEtud" && <FormEtud data={data} />} */}
+        <EmailTemplateManager />
       </div>
     </main>
   );

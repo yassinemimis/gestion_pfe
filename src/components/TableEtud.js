@@ -50,9 +50,31 @@ const Table = ({ onSwitchToForm }) => {
       fetchData();
     }, []);
   
-    const handleDelete = (id) => {
-      setData((prevData) => prevData.filter((item) => item.id_utilisateur !== id));
+    const handleDelete = async (id) => {
+      console.log(id);
+      try {
+        // استدعاء API لحذف العنصر
+        const response = await fetch(`http://127.0.0.1:8000/api/teachers/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+    
+        // التحقق من نجاح العملية
+        if (response.ok) {
+          // تحديث الحالة إذا تمت العملية بنجاح
+          setData((prevData) => prevData.filter((item) => item.id_utilisateur !== id));
+          alert("تم الحذف بنجاح!");
+        } else {
+          alert("حدث خطأ أثناء الحذف.");
+        }
+      } catch (error) {
+        console.error("Error deleting item:", error);
+        alert("تعذر الاتصال بالخادم.");
+      }
     };
+    
     const handleEdit = (rowData) => {
       onSwitchToForm(rowData); // تمرير بيانات الصف المحدد إلى النموذج
     };
