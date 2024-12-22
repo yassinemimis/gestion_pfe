@@ -185,7 +185,7 @@ import {
   School,
 } from "@mui/icons-material";
 
-const Sidebar = () => {
+const Sidebar = ({ setActiveComponent }) => {
   const [openIncome, setOpenIncome] = useState(false);
   const [isDashboardOpen, setIsDashboardOpen] = useState(false);
 
@@ -217,7 +217,7 @@ const Sidebar = () => {
 
       <List>
         {/* Dashboard */}
-        <ListItem sx={{ marginTop: "15%" }}  button>
+        <ListItem sx={{ marginTop: "15%" }}  button onClick={() => setActiveComponent("Dashboard")}>
           <ListItemIcon>
             <DashboardIcon />
           </ListItemIcon>
@@ -234,19 +234,19 @@ const Sidebar = () => {
         </ListItem>
         <Collapse in={isDashboardOpen} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            <ListItem button sx={{ pl: 4 }}>
+            <ListItem  sx={{ pl: 4 }}  button onClick={() => setActiveComponent("TableEnsg")}>
             <ListItemIcon>
             <People />
           </ListItemIcon>
               <ListItemText primary="Les enseignants" />
             </ListItem>
-            <ListItem button sx={{ pl: 4 }}>
+            <ListItem  sx={{ pl: 4 }} button onClick={() => setActiveComponent("Tablecomp")}>
             <ListItemIcon>
           <Business />
         </ListItemIcon>
               <ListItemText primary="Les entreprises" />
             </ListItem>
-            <ListItem button sx={{ pl: 4 }}>
+            <ListItem  sx={{ pl: 4 }} button onClick={() => setActiveComponent("Table")}>
             <ListItemIcon>
           <School />
         </ListItemIcon>
@@ -255,7 +255,7 @@ const Sidebar = () => {
           </List>
         </Collapse>
         {/* Posts */}
-        <ListItem button>
+        <ListItem   button onClick={() => setActiveComponent("EmailTemplateManager")}>
           <ListItemIcon>
             <Article />
           </ListItemIcon>
@@ -271,7 +271,7 @@ const Sidebar = () => {
         </ListItem> */}
 
         {/* Income Section */}
-        <ListItem button>
+        <ListItem button onClick={() => setActiveComponent("UploadFile")}>
           <ListItemIcon>
             <FileUpload />
           </ListItemIcon>

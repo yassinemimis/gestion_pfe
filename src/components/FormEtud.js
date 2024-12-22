@@ -23,6 +23,8 @@ const FormEtud = ({ data }) => {
     e.preventDefault();
     try {
       if (data.id_utilisateur) {
+        console.log("yass");
+        console.log(data);
         await axios.put(`http://127.0.0.1:8000/api/teachers/${data.id_utilisateur}`, student);
         setSuccessMessage("Les données ont été mises à jour avec succès!");
         setErrorMessage(""); 

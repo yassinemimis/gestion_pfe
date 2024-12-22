@@ -1,4 +1,4 @@
-.app-container {
+/* .app-container {
   display: flex;
   height: 100vh;
   font-family: Arial, sans-serif;
@@ -8,4 +8,34 @@
   flex: 2;
   display: flex;
   flex-direction: column;
+} */
+.app-container {
+  display: flex;
+  height: 100vh; 
+  font-family: Arial, sans-serif;
+}
+
+.sidebar {
+  width: 15%; 
+  height: 100%; 
+  position: fixed; 
+  left: 0;
+  top: 0;
+  background: white;
+  border-right: 1px solid #ccc;
+}
+
+.main-content {
+ 
+  flex-grow: 1; 
+  display: flex;
+  flex-direction: column;
+  height: 100%; 
+}
+
+.content {
+  overflow-y: auto; 
+  flex-grow: 1; 
+  padding: 20px; /* مسافة داخلية */
+  background: #f9f9f9; /* خلفية المحتوى */
 }

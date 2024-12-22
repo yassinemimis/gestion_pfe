@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Sidebar from './components/Sidebar';
 import TopBar from './components/TopBar';
 import Content from './components/Content';
 import './App.css';
 
 const App = () => {
+  const [activeComponent1, setActiveComponent] = useState("Table"); 
+
   return (
     <div className="app-container">
-      <Sidebar />
+      <Sidebar setActiveComponent={setActiveComponent} />
       <div className="main-content">
         <TopBar />
-        <Content />
+        <Content activeComponent1={activeComponent1} />
       </div>
     </div>
   );
