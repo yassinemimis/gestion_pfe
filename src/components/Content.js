@@ -41,7 +41,7 @@ import FormEtud from "./FormEtud";
 import FormComp from "./FormComp";
 import FormEnsg from "./FormEnsg";
 import EmailTemplateManager from "./EmailTemplateManager";
-
+import Formulaire  from "./Formulaire"
 const Content = ({ activeComponent1 }) => {
   const [activeComponent, setActiveComponent] = useState("Table");
   const [data, setData] = useState(null);
@@ -83,7 +83,7 @@ const Content = ({ activeComponent1 }) => {
     }
   };
 
-  return <main className="content">{renderComponent()}</main>;
+  return <main className="content">{<Formulaire />}</main>;
 };
 
 export default Content;
