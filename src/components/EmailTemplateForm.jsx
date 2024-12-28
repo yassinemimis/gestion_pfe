@@ -35,7 +35,7 @@ const EmailTemplateForm = ({ currentTemplate, onSave }) => {
     };
 
     return (
-        <form onSubmit={handleSubmit(onSubmit)}>
+        <form onSubmit={handleSubmit(onSubmit)} className="email-form">
             <h2>{currentTemplate?.id ? 'Modifier' : 'Ajouter'} un Template</h2>
             <div className='row'>
 

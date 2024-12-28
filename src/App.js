@@ -14,6 +14,7 @@ const App = () => {
         <TopBar />
         <Content activeComponent1={activeComponent1} />
       </div>
+  
     </div>
   );
 };

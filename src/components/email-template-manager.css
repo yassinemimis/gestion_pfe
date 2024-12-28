@@ -68,7 +68,7 @@ body {
   }
   
   /* Formulaire */
-  form {
+  .email-form form {
     background: #fff;
     padding: 20px;
     margin: 20px auto;
@@ -77,15 +77,15 @@ body {
 
   }
   
-  form label {
+  .email-form form label {
     display: block;
     margin-bottom: 8px;
     font-weight: bold;
     color: #444;
   }
   
-  form input,
-  form .ql-container {
+  .email-form form input,
+  .email-form form .ql-container {
     width: 100%;
     padding: 10px;
     margin-bottom: 15px;
@@ -94,14 +94,14 @@ body {
     font-size: 14px;
   }
   
-  form input:focus,
-  form .ql-container:focus {
+  .email-form form input:focus,
+  .email-form form .ql-container:focus {
     outline: none;
     border-color: #007bff;
     box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
   }
   
-  form button {
+  .email-form form button {
     display: inline-block;
     background-color: #28a745;
     border: none;
@@ -113,7 +113,7 @@ body {
     text-align: center;
   }
   
-  form button:hover {
+  .email-form form button:hover {
     background-color: #218838;
   }
   

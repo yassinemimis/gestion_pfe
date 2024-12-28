@@ -41,7 +41,10 @@ import FormEtud from "./FormEtud";
 import FormComp from "./FormComp";
 import FormEnsg from "./FormEnsg";
 import EmailTemplateManager from "./EmailTemplateManager";
-import Formulaire  from "./Formulaire"
+import FormulairePFEEnseignant  from "./FormulairePFEEnseignant";
+import PFEEtudiant from "./PFEEtudiant"
+import PFEEntreprise from "./PFEEntreprise"
+import ProjectSelection from "./ProjectSelection"
 const Content = ({ activeComponent1 }) => {
   const [activeComponent, setActiveComponent] = useState("Table");
   const [data, setData] = useState(null);
@@ -79,11 +82,11 @@ const Content = ({ activeComponent1 }) => {
       case "FormEnsg":
         return <FormEnsg data={data} />;
       default:
-        return <div>المكوّن المحدد غير موجود</div>;
+        return <div></div>;
     }
   };
 
-  return <main className="content">{<Formulaire />}</main>;
+  return <main className="content">{<ProjectSelection />}</main>;
 };
 
 export default Content;
