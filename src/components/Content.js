@@ -32,7 +32,7 @@
 // export default Content;
 
 import React, { useState } from "react";
-import "./Content.css";
+
 import UploadFile from "./UploadFile";
 import Table from "./TableEtud";
 import TableEnsg from "./TableEnsg";
@@ -45,6 +45,7 @@ import FormulairePFEEnseignant  from "./FormulairePFEEnseignant";
 import PFEEtudiant from "./PFEEtudiant"
 import PFEEntreprise from "./PFEEntreprise"
 import ProjectSelection from "./ProjectSelection"
+import styles1 from "./Content.module.css"; 
 const Content = ({ activeComponent1 }) => {
   const [activeComponent, setActiveComponent] = useState("Table");
   const [data, setData] = useState(null);
@@ -86,7 +87,7 @@ const Content = ({ activeComponent1 }) => {
     }
   };
 
-  return <main className="content">{<ProjectSelection />}</main>;
+  return <main className={styles1.content}>{<EmailTemplateManager />}</main>;
 };
 
 export default Content;

@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import './LoginForm.css';
+
 import pfeImage from './assets/pfe.png';
 import axios from 'axios';
+import styles3 from "./LoginForm.module.css"; 
 function LoginForm() {
   const [adresse_email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -14,16 +15,19 @@ function LoginForm() {
         adresse_email,
         password,
       });
-      console.log(response.data);
-      console.log(response);
-
+      console.log(response.data.message1);
+      console.log(response.data.message);
+      console.log(response.data.success);
+      localStorage.setItem('role', response.data.success);
+      localStorage.setItem('id', response.data.message);
+      window.location.href = `/admin`;
     } catch (error) {
       setError(error.response.data.message || 'Login failed');
     }
   };
   return (
-    <div className="login-container">
-      <div className="login-form">
+    <div className={styles3.logincontainer}>
+      <div className={styles3.loginform}>
         <h1>WELCOME BACK</h1>
         <p>Welcome back! Please enter your details.</p>
         <form >
@@ -53,7 +57,7 @@ function LoginForm() {
         </form>
       </div>
       
-      <div className="illustration">
+      <div className={styles3.illustration}>
        
         <img src={pfeImage} alt="Welcome illustration" />
 

@@ -160,7 +160,7 @@
 
 // export default Sidebar;
 import React, { useState } from "react";
-import './Sidebar.css';
+import styles2 from "./Sidebar.module.css"; 
 import {
   List,
   ListItem,
@@ -212,8 +212,8 @@ const Sidebar = ({ setActiveComponent }) => {
         justifyContent: "space-between", // Space between items, pushing the bottom items down
       }}
     >
-      <div className="logo">LOGO</div>
-      <div className="divider"></div>
+      <div className={styles2.logo}>LOGO</div>
+      <div className={styles2.divider}></div>
 
       <List>
         {/* Dashboard */}
