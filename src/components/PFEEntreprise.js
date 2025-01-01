@@ -11,17 +11,16 @@ const PFEEntreprise = () => {
     depse: 'Entreprise',
   });
 
-  const [coEncadrants, setCoEncadrants] = useState([]); // قائمة المشرفين المساعدين
+  const [coEncadrants, setCoEncadrants] = useState([]); 
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [selectedItem, setSelectedItem] = useState(null); // لحفظ العنصر المختار
+  const [selectedItem, setSelectedItem] = useState(null); 
   const [enableSuggestions, setEnableSuggestions] = useState(true);
-  // استدعاء API عند الكتابة
   const handleInputChange = async (e) => {
       const value = e.target.value;
       setQuery(value);
 
-      if (value.length > 1) { // البحث عند كتابة حرفين أو أكثر
+      if (value.length > 1) { 
           try {
               const response = await axios.get(`http://127.0.0.1:8000/api/co-etudiant?query=${value}`);
               setSuggestions(response.data);
@@ -33,15 +32,15 @@ const PFEEntreprise = () => {
       }
   };
 
-  // تحديد العنصر من القائمة
+
   const handleSelectItem = (item) => {
-      setSelectedItem(item); // حفظ العنصر المختار
+      setSelectedItem(item);
       setQuery(`${item.nom} ${item.prenom}`);
       console.log(item.intitule_option);
       formData.intitule_option=`${item.intitule_option}`;
       formData.affectation2=`${item.id}`;
-      // تحديث حقل الإدخال بالنص
-      setSuggestions([]); // إخفاء القائمة
+  
+      setSuggestions([]); 
   };
  
 
@@ -54,7 +53,7 @@ const PFEEntreprise = () => {
     e.preventDefault();
     console.log('Form Data:', formData);
 
-    // إرسال البيانات إلى السيرفر
+
     fetch('http://127.0.0.1:8000/api/themes', {
       method: 'POST',
       headers: {

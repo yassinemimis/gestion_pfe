@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 const PFEEtudiant = () => {
+  const idetud = localStorage.getItem('idetud');
   const [formData, setFormData] = useState({
     nomEncadrant: '',
     prenomEncadrant: '',
-    affectation2: '', // نختار المشرف المساعد من القائمة
+    affectation1: idetud,
+    affectation2: '', 
     intitule_option: '',
     type_pf: '',
     titre_theme: '',
@@ -13,18 +15,17 @@ const PFEEtudiant = () => {
     besoins_materiel: '',
     depse: 'Etudiant',
   });
-
-  const [coEncadrants, setCoEncadrants] = useState([]); // قائمة المشرفين المساعدين
+  const [coEncadrants, setCoEncadrants] = useState([]); 
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [selectedItem, setSelectedItem] = useState(null); // لحفظ العنصر المختار
+  const [selectedItem, setSelectedItem] = useState(null); 
   const [enableSuggestions, setEnableSuggestions] = useState(true);
-  // استدعاء API عند الكتابة
+
   const handleInputChange = async (e) => {
       const value = e.target.value;
       setQuery(value);
 
-      if (value.length > 1) { // البحث عند كتابة حرفين أو أكثر
+      if (value.length > 1) { 
           try {
               const response = await axios.get(`http://127.0.0.1:8000/api/co-etudiant?query=${value}`);
               setSuggestions(response.data);

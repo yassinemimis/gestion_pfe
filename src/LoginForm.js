@@ -15,12 +15,21 @@ function LoginForm() {
         adresse_email,
         password,
       });
-      console.log(response.data.message1);
-      console.log(response.data.message);
-      console.log(response.data.success);
-      localStorage.setItem('role', response.data.success);
+      console.log("h");
+      localStorage.setItem('idetud', response.data.result[0].id);
+      localStorage.setItem('nom', response.data.nom);
+      localStorage.setItem('prenom', response.data.prenom);
+      localStorage.setItem('type_utilisateur', response.data.type_utilisateur);
       localStorage.setItem('id', response.data.message);
+      if(response.data.type_utilisateur == "Admin")
       window.location.href = `/admin`;
+      else if (response.data.type_utilisateur == "etudiant")
+        window.location.href = `/etudiant`;
+      else if (response.data.type_utilisateur == "enseignant")
+        window.location.href = `/enseignant`;
+      else if (response.data.type_utilisateur == "entreprise")
+        window.location.href = `/admin`;
+
     } catch (error) {
       setError(error.response.data.message || 'Login failed');
     }

@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Routes, Navigate } from "react-router-dom";
 import LoginForm from "./LoginForm";
 import AdminPage from "./components/Admin"; 
-
+import Etud from "./components/Etud";
+import Ensg from "./components/Ensg";
 import styles4 from "./App.module.css"; 
 const App = () => {
   return (
@@ -14,7 +15,8 @@ const App = () => {
 
           {}
           <Route path="/admin" element={<AdminPage />} />
-
+          <Route path="/etudiant" element={<Etud />} />
+          <Route path="/enseignant" element={<Ensg />} />
           {}
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>

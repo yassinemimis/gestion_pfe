@@ -69,6 +69,8 @@ const Content = ({ activeComponent1 }) => {
           return <EmailTemplateManager />;
         case "UploadFile":
           return <UploadFile />;
+        case "PFEEtudiant":
+          return <PFEEtudiant />;    
       
       }
     }
@@ -87,7 +89,7 @@ const Content = ({ activeComponent1 }) => {
     }
   };
 
-  return <main className={styles1.content}>{<EmailTemplateManager />}</main>;
+  return <main className={styles1.content}>{renderComponent()}</main>;
 };
 
 export default Content;

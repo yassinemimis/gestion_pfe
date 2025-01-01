@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import "./FormEtud.css";
 const FormulairePFEEnseignant = () => {
   const [formData, setFormData] = useState({
     nomEncadrant: '',
     prenomEncadrant: '',
-    co_encadrant: '', // نختار المشرف المساعد من القائمة
+    co_encadrant: '', 
     intitule_option: '',
     type_pf: '',
     titre_theme: '',
@@ -14,17 +15,17 @@ const FormulairePFEEnseignant = () => {
     depse: 'Enseignant',
   });
 
-  const [coEncadrants, setCoEncadrants] = useState([]); // قائمة المشرفين المساعدين
+  const [coEncadrants, setCoEncadrants] = useState([]);
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
-  const [selectedItem, setSelectedItem] = useState(null); // لحفظ العنصر المختار
+  const [selectedItem, setSelectedItem] = useState(null); 
 
-  // استدعاء API عند الكتابة
+ 
   const handleInputChange = async (e) => {
       const value = e.target.value;
       setQuery(value);
 
-      if (value.length > 1) { // البحث عند كتابة حرفين أو أكثر
+      if (value.length > 1) { 
           try {
               const response = await axios.get(`http://127.0.0.1:8000/api/co-encadrants?query=${value}`);
               setSuggestions(response.data);
@@ -36,13 +37,12 @@ const FormulairePFEEnseignant = () => {
       }
   };
 
-  // تحديد العنصر من القائمة
   const handleSelectItem = (item) => {
-      setSelectedItem(item); // حفظ العنصر المختار
+      setSelectedItem(item); 
       setQuery(`${item.nom} ${item.prenom}`);
       console.log(item.id_ens);
-      formData.co_encadrant=`${item.id_ens}`;// تحديث حقل الإدخال بالنص
-      setSuggestions([]); // إخفاء القائمة
+      formData.co_encadrant=`${item.id_ens}`;
+      setSuggestions([]); 
   };
  
 
@@ -55,7 +55,7 @@ const FormulairePFEEnseignant = () => {
     e.preventDefault();
     console.log('Form Data:', formData);
 
-    // إرسال البيانات إلى السيرفر
+    
     fetch('http://127.0.0.1:8000/api/themes', {
       method: 'POST',
       headers: {
@@ -86,7 +86,7 @@ const FormulairePFEEnseignant = () => {
                 placeholder="co_encadrant"
             />
 
-            {/* قائمة الاقتراحات */}
+            {}
             {suggestions.length > 0 && (
                 <ul style={{ border: '1px solid #ccc', listStyle: 'none', padding: 0, maxHeight: '200px', overflowY: 'auto' }}>
                     {suggestions.map((item) => (
@@ -103,7 +103,7 @@ const FormulairePFEEnseignant = () => {
                 </ul>
             )}
 
-            {/* عرض العنصر المختار */}
+            {}
            
         </div>
       <div>
