@@ -45,7 +45,12 @@ import FormulairePFEEnseignant  from "./FormulairePFEEnseignant";
 import PFEEtudiant from "./PFEEtudiant"
 import PFEEntreprise from "./PFEEntreprise"
 import ProjectSelection from "./ProjectSelection"
+import Testz from "./testzz";
 import styles1 from "./Content.module.css"; 
+import ValideEntr from "./ValideEntr";
+import ValideEtud from "./ValideEtud";
+import ValidEnsg from "./ValidEnsg";
+import AdminCharts from "./AdminCharts";
 const Content = ({ activeComponent1 }) => {
   const [activeComponent, setActiveComponent] = useState("Table");
   const [data, setData] = useState(null);
@@ -61,6 +66,8 @@ const Content = ({ activeComponent1 }) => {
   const renderComponent = () => {
     if (activeComponent1) {
       switch (activeComponent1) {
+        case "Dashboard":
+          return <AdminCharts />;
         case "TableEnsg":
           return <TableEnsg />;
         case "Tablecomp":
@@ -70,8 +77,19 @@ const Content = ({ activeComponent1 }) => {
         case "UploadFile":
           return <UploadFile />;
         case "PFEEtudiant":
-          return <PFEEtudiant />;    
-      
+          return <PFEEtudiant />;
+        case "ProjectSelection":
+          return <ProjectSelection/>;      
+        case "FormulairePFEEnseignant":
+            return <FormulairePFEEnseignant/>;
+        case "Testz":
+              return <Testz/>; 
+        case "ValideEntr":
+              return <ValideEntr/>;    
+        case "ValideEtud":
+              return <ValideEtud/>;       
+        case "ValidEnsg":
+                return <ValidEnsg/>;                
       }
     }
 
@@ -79,7 +97,7 @@ const Content = ({ activeComponent1 }) => {
       case "Table":
         return <Table onSwitchToForm={handleSwitchToForm} />;
       case "FormEtud":
-        return <FormEtud data={data} />;
+        return <FormEtud data={data} setActiveComponent={setActiveComponent} />;
       case "FormComp":
         return <FormComp data={data} />;
       case "FormEnsg":

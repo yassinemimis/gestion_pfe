@@ -2,9 +2,11 @@ import React, { useState, useEffect } from "react";
 import styles from "./ProjectSelection.module.css"; 
 import axios from "axios";
 const ProjectSelection = () => {
+  const id_ens = localStorage.getItem('id_ens');
   const [projects, setProjects] = useState([]);
   const [selectedProjects, setSelectedProjects] = useState([]);
   const [encadrant, setEncadrant] = useState("");
+  const a=1;
   useEffect(() => {
     const fetchProjects = async () => {
       try {
@@ -62,6 +64,7 @@ const ProjectSelection = () => {
   };
 
   return (
+    a == 1 ? (
     <div className={styles.container}>
       <h1 className={styles.title}>Sélectionner les projets à encadrer</h1>
       {projects.length === 0 ? (
@@ -100,7 +103,7 @@ const ProjectSelection = () => {
       >
         Soumettre la sélection
       </button>
-    </div>
+    </div>):(<div>  <h1 className={styles.title}>Sélectionner les projets à encadrer</h1></div>)
   );
 };
 

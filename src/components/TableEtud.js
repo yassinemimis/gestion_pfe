@@ -7,11 +7,11 @@ const Table = ({ onSwitchToForm }) => {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
  
-    const [message, setMessage] = useState({ text: "", type: "" }); // Pour gérer le message (text et type)
+    const [message, setMessage] = useState({ text: "", type: "" }); 
     const handleSubmit = (e) => {
       e.preventDefault();
-      // Simuler une requête API ici
-      const isSuccess = true; // Exemple : succès ou échec
+
+      const isSuccess = true; 
   
       if (isSuccess) {
         setMessage({ text: "Action réussie ! L'étudiant a été ajouté.", type: "success" });
@@ -19,7 +19,7 @@ const Table = ({ onSwitchToForm }) => {
         setMessage({ text: "Une erreur s'est produite. Veuillez réessayer.", type: "error" });
       }
   
-      // Réinitialiser le message après 3 secondes
+      
       setTimeout(() => {
         setMessage({ text: "", type: "" });
       }, 3000);
@@ -27,11 +27,11 @@ const Table = ({ onSwitchToForm }) => {
     useEffect(() => {
       const fetchData = async () => {
         try {
-          const response = await fetch("http://127.0.0.1:8000/api/teachers");
+          const response = await fetch("http://127.0.0.1:8000/api/etudiant");
           if (response.ok) {
             const fetchedData = await response.json();
             console.log("Fetched Data:", fetchedData);
-            setData(fetchedData); // تأكد من تخزين البيانات مباشرة
+            setData(fetchedData); 
           } else {
             setMessage({
               text: "Erreur lors de la récupération des données.",
@@ -53,30 +53,30 @@ const Table = ({ onSwitchToForm }) => {
     const handleDelete = async (id) => {
       console.log(id);
       try {
-        // استدعاء API لحذف العنصر
-        const response = await fetch(`http://127.0.0.1:8000/api/teachers/${id}`, {
+    
+        const response = await fetch(`http://127.0.0.1:8000/api/etudiant/${id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",
           },
         });
     
-        // التحقق من نجاح العملية
+
         if (response.ok) {
-          // تحديث الحالة إذا تمت العملية بنجاح
+        
           setData((prevData) => prevData.filter((item) => item.id_utilisateur !== id));
-          alert("تم الحذف بنجاح!");
+        
         } else {
-          alert("حدث خطأ أثناء الحذف.");
+         
         }
       } catch (error) {
         console.error("Error deleting item:", error);
-        alert("تعذر الاتصال بالخادم.");
+      
       }
     };
     
     const handleEdit = (rowData) => {
-      onSwitchToForm(rowData); // تمرير بيانات الصف المحدد إلى النموذج
+      onSwitchToForm(rowData);
     };
     const filteredData = data.filter((item) =>
       item.nom?.toLowerCase().includes(search.toLowerCase())
@@ -90,7 +90,7 @@ const Table = ({ onSwitchToForm }) => {
               {message.text}
             </div>
           )}
-      {/* شريط الإدخال والأزرار */}
+      {}
       <div
         style={{
           marginBottom: "2%",
@@ -139,12 +139,7 @@ const Table = ({ onSwitchToForm }) => {
 
       {}
       <div
-        style={{
-          maxHeight: "70vh", 
-          overflowY: "auto",
-          border: "1px solid #ddd", 
-          borderRadius: "5px",
-        }}
+       
       >
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
 
@@ -154,6 +149,8 @@ const Table = ({ onSwitchToForm }) => {
             <th style={styles.th}>Prenom</th>
             <th style={styles.th}>Type Utilisateur</th>
             <th style={styles.th}>Email</th>
+            <th style={styles.th}>moyenne</th>
+            <th style={styles.th}>option</th>
             <th style={styles.th}>Actions</th>
             </tr>
           </thead>
@@ -168,6 +165,8 @@ const Table = ({ onSwitchToForm }) => {
                 <td style={styles.td}>{row.prenom || "N/A"}</td>
                 <td style={styles.td}>{row.type_utilisateur || "N/A"}</td>
                 <td style={styles.td}>{row.adresse_email || "N/A"}</td>
+                <td style={styles.td}>{row.moyenne_m1 || "N/A"}</td>
+                <td style={styles.td}>{row.intitule_option || "N/A"}</td>
                 <td style={styles.td}>
                   <button style={styles.selectButton}
                   onClick={() => handleEdit(row)}

@@ -4,7 +4,7 @@ import Content from './Content';
 import styles5 from "../App.module.css"; 
 import SidebarEnsg from "./SidebarEnsg"
 const Ensg = () => {
-  const [activeComponent1, setActiveComponent] = useState("TableEnsg"); 
+  const [activeComponent1, setActiveComponent] = useState("ProjectSelection"); 
 
   return (
     <div className={styles5.appcontainer}>

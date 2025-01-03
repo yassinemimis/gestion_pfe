@@ -15,8 +15,18 @@ function LoginForm() {
         adresse_email,
         password,
       });
-      console.log("h");
-      localStorage.setItem('idetud', response.data.result[0].id);
+      if(response.data.type_utilisateur=='enseignant'){
+        localStorage.setItem('id_ens', response.data.result[0].id_ens);
+        console.log(response.data.result[0].id_ens);
+        localStorage.setItem('est_responsable', response.data.result[0].est_responsable);
+      }
+      else if(response.data.type_utilisateur=='etudiant'){
+        localStorage.setItem('id', response.data.result[0].id);
+      }
+      else if(response.data.type_utilisateur=='entreprise'){
+        localStorage.setItem('idetud', response.data.result[0].id);
+      }
+    
       localStorage.setItem('nom', response.data.nom);
       localStorage.setItem('prenom', response.data.prenom);
       localStorage.setItem('type_utilisateur', response.data.type_utilisateur);

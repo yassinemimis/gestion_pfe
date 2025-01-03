@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./FormEtud.css";
+import { Password } from "@mui/icons-material";
 
-const FormEtud = ({ data }) => {
+const FormEtud = ({ data , setActiveComponent  }) => {
   const [student, setStudent] = useState({
     nom: data.nom,
     prenom: data.prenom,
     adresse_email: data.adresse_email,
+    password: "password",
     type_utilisateur: "etudiant",
-    intitule_option: "",
-    moyenne_m1: "",
+    intitule_option: data.intitule_option,
+    moyenne_m1: data.moyenne_m1,
   });
   const [successMessage, setSuccessMessage] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
@@ -25,16 +27,17 @@ const FormEtud = ({ data }) => {
       if (data.id_utilisateur) {
         console.log("yass");
         console.log(data);
-        await axios.put(`http://127.0.0.1:8000/api/teachers/${data.id_utilisateur}`, student);
+        await axios.put(`http://127.0.0.1:8000/api/etudiant/${data.id_utilisateur}`, student);
         setSuccessMessage("Les données ont été mises à jour avec succès!");
         setErrorMessage(""); 
+        
       } else {
     
-        await axios.post("http://127.0.0.1:8000/api/teachers", student);
+        await axios.post("http://127.0.0.1:8000/api/etudiant", student);
         setSuccessMessage("Les données ont été envoyées avec succès!");
         setErrorMessage(""); 
       }
-    
+      setActiveComponent("Table");
     } catch (error) {
       console.error("Error submitting form:", error);
       setErrorMessage("Une erreur est survenue lors de l'envoi des données.");
