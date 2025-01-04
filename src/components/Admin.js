@@ -12,7 +12,7 @@ const Admin = () => {
       <Sidebar setActiveComponent={setActiveComponent} />
       <div className={styles5.maincontent}>
         <TopBar />
-        <Content activeComponent1={activeComponent1} />
+        <Content setActiveComponent={setActiveComponent} activeComponent1={activeComponent1} />
       </div>
 
     </div>

@@ -3,7 +3,7 @@ import "./Table.css";
 
 
 
-const TableEnsg = ({ onSwitchToForm }) => {
+const TableEnsg = ({ onSwitchToForm1 }) => {
   const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
  
@@ -76,7 +76,7 @@ const TableEnsg = ({ onSwitchToForm }) => {
     };
     
     const handleEdit = (rowData) => {
-      onSwitchToForm(rowData);
+      onSwitchToForm1(rowData);
     };
     const filteredData = data.filter((item) =>
       item.nom?.toLowerCase().includes(search.toLowerCase())
@@ -131,7 +131,7 @@ const TableEnsg = ({ onSwitchToForm }) => {
             cursor: "pointer",
             flexShrink: "0",
           }}
-          onClick={onSwitchToForm}
+          onClick={onSwitchToForm1}
         >
           Add New Project
         </button>

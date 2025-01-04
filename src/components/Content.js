@@ -41,21 +41,21 @@ import FormEtud from "./FormEtud";
 import FormComp from "./FormComp";
 import FormEnsg from "./FormEnsg";
 import EmailTemplateManager from "./EmailTemplateManager";
-import FormulairePFEEnseignant  from "./FormulairePFEEnseignant";
-import PFEEtudiant from "./PFEEtudiant"
-import PFEEntreprise from "./PFEEntreprise"
-import ProjectSelection from "./ProjectSelection"
+import FormulairePFEEnseignant from "./FormulairePFEEnseignant";
+import PFEEtudiant from "./PFEEtudiant";
+import ProjectSelection from "./ProjectSelection";
 import Testz from "./testzz";
-import styles1 from "./Content.module.css"; 
+import styles1 from "./Content.module.css";
 import ValideEntr from "./ValideEntr";
 import ValideEtud from "./ValideEtud";
 import ValidEnsg from "./ValidEnsg";
 import AdminCharts from "./AdminCharts";
+
 const Content = ({ activeComponent1 }) => {
   const [activeComponent, setActiveComponent] = useState("Table");
   const [data, setData] = useState(null);
 
-  console.log(activeComponent1);
+  console.log(`${activeComponent1} 5555`);
 
   const handleSwitchToForm = (data) => {
     console.log(data);
@@ -63,37 +63,38 @@ const Content = ({ activeComponent1 }) => {
     setActiveComponent("FormEtud");
   };
 
-  const renderComponent = () => {
-    if (activeComponent1) {
-      switch (activeComponent1) {
-        case "Dashboard":
-          return <AdminCharts />;
-        case "TableEnsg":
-          return <TableEnsg />;
-        case "Tablecomp":
-          return <Tablecomp />;
-        case "EmailTemplateManager":
-          return <EmailTemplateManager />;
-        case "UploadFile":
-          return <UploadFile />;
-        case "PFEEtudiant":
-          return <PFEEtudiant />;
-        case "ProjectSelection":
-          return <ProjectSelection/>;      
-        case "FormulairePFEEnseignant":
-            return <FormulairePFEEnseignant/>;
-        case "Testz":
-              return <Testz/>; 
-        case "ValideEntr":
-              return <ValideEntr/>;    
-        case "ValideEtud":
-              return <ValideEtud/>;       
-        case "ValidEnsg":
-                return <ValidEnsg/>;                
-      }
-    }
+  const handleSwitchToForm1 = (data) => {
+    console.log("fromensg", data);
+    setData(data);
+    setActiveComponent("FormEnsg");
+  };
 
-    switch (activeComponent) {
+  const renderComponent = () => {
+    switch (activeComponent1) {
+      case "Dashboard":
+        return <AdminCharts />;
+      case "TableEnsg":
+        return <TableEnsg onSwitchToForm1={handleSwitchToForm1} />;
+      case "Tablecomp":
+        return <Tablecomp />;
+      case "EmailTemplateManager":
+        return <EmailTemplateManager />;
+      case "UploadFile":
+        return <UploadFile />;
+      case "PFEEtudiant":
+        return <PFEEtudiant />;
+      case "ProjectSelection":
+        return <ProjectSelection />;
+      case "FormulairePFEEnseignant":
+        return <FormulairePFEEnseignant />;
+      case "Testz":
+        return <Testz />;
+      case "ValideEntr":
+        return <ValideEntr />;
+      case "ValideEtud":
+        return <ValideEtud />;
+      case "ValidEnsg":
+        return <ValidEnsg />;
       case "Table":
         return <Table onSwitchToForm={handleSwitchToForm} />;
       case "FormEtud":
@@ -101,9 +102,9 @@ const Content = ({ activeComponent1 }) => {
       case "FormComp":
         return <FormComp data={data} />;
       case "FormEnsg":
-        return <FormEnsg data={data} />;
+        return <FormEnsg data={data} setActiveComponent={setActiveComponent} />;
       default:
-        return <div></div>;
+        return <div>Composant inconnu</div>;
     }
   };
 
@@ -111,3 +112,4 @@ const Content = ({ activeComponent1 }) => {
 };
 
 export default Content;
+
