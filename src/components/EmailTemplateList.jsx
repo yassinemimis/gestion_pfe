@@ -2,6 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { toast } from 'react-toastify';
+import './email-template-manager.css';
 
 const EmailTemplateList = ({ onEdit }) => {
   const [templates, setTemplates] = useState([]);
@@ -9,6 +10,7 @@ const EmailTemplateList = ({ onEdit }) => {
   // Charger les templates au chargement
   useEffect(() => {
     fetchTemplates();
+    console.log(templates);
   }, []);
 
   const fetchTemplates = async () => {
@@ -40,6 +42,8 @@ const EmailTemplateList = ({ onEdit }) => {
           <tr>
             <th>Nom</th>
             <th>Sujet</th>
+            <th>Destinataire</th>
+            <th>Date d'envoi</th>
             <th>Actions</th>
           </tr>
         </thead>
@@ -48,6 +52,8 @@ const EmailTemplateList = ({ onEdit }) => {
             <tr key={template.id}>
               <td>{template.name}</td>
               <td>{template.subject}</td>
+              <td>{template.recipient }</td>
+              <td>{template.send_date }</td>
               <td>
                 <button onClick={() => onEdit(template)}>Modifier</button>
                 <button onClick={() => handleDelete(template.id)}>Supprimer</button>
