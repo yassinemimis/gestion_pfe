@@ -150,10 +150,3 @@
     cursor: pointer;
   }
   
-  .profile-pic {
-    width: 35px;
-    height: 35px;
-    background-color: #ccc;
-    border-radius: 50%;
-  }
-  
