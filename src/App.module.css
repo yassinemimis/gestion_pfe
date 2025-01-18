@@ -1,0 +1,47 @@
+/* .app-container {
+  display: flex;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+}
+
+.main-content {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+} */
+.appcontainer {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  position: fixed; /* تثبيت العنصر */
+  top: 0;
+  left: 0;
+  z-index: 1000; /* تأكيد أن العنصر فوق كل شيء */
+}
+
+.sidebar {
+  width: 15%; 
+  height: 100%;
+  position: fixed; 
+  left: 0;
+  top: 0;
+  background: white;
+  border-right: 1px solid #ccc;
+}
+
+.maincontent {
+ 
+  flex-grow: 1;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  overflow-y: auto; /* للسماح بالتمرير داخل المحتوى */
+}
+
+.content {
+  overflow-y: auto; 
+  flex-grow: 1; 
+  padding: 20px;
+  background: #f9f9f9;
+}

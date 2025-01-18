@@ -1,53 +1,17 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Table.css";
 
-const data = [
-  {
-    title: "Artificial Intelligence Project",
-    description: "A project",
-    supervisor: { name: "nnnnn", email: "example@email.com" },
-    status: "15/APR/2020",
-  },
-  {
-    title: "Artificial Intelligence Project",
-    description: "A project",
-    supervisor: { name: "Justin Septimus", email: "example@email.com" },
-    status: "15/APR/2020",
-  },
-  {
-    title: "Artificial Intelligence Project",
-    description: "A project",
-    supervisor: { name: "Justin Septimus", email: "example@email.com" },
-    status: "15/APR/2020",
-  },
-  {
-    title: "Artificial Intelligence Project",
-    description: "A project",
-    supervisor: { name: "Justin Septimus", email: "example@email.com" },
-    status: "15/APR/2020",
-  },
-  {
-    title: "Artificial Intelligence Project",
-    description: "A project",
-    supervisor: { name: "Justin Septimus", email: "example@email.com" },
-    status: "15/APR/2020",
-  },
-  {
-    title: "Artificial Intelligence Project",
-    description: "A project",
-    supervisor: { name: "Justin Septimus", email: "example@email.com" },
-    status: "15/APR/2020",
-  },
- 
-];
 
-const Table = () => {
+
+const Table = ({ setActiveComponent }) => {
+  const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
-    const [message, setMessage] = useState({ text: "", type: "" }); // Pour gérer le message (text et type)
+ 
+    const [message, setMessage] = useState({ text: "", type: "" }); 
     const handleSubmit = (e) => {
       e.preventDefault();
-      // Simuler une requête API ici
-      const isSuccess = true; // Exemple : succès ou échec
+
+      const isSuccess = true; 
   
       if (isSuccess) {
         setMessage({ text: "Action réussie ! L'étudiant a été ajouté.", type: "success" });
@@ -55,15 +19,69 @@ const Table = () => {
         setMessage({ text: "Une erreur s'est produite. Veuillez réessayer.", type: "error" });
       }
   
-      // Réinitialiser le message après 3 secondes
+      
       setTimeout(() => {
         setMessage({ text: "", type: "" });
       }, 3000);
     };
- 
-  const filteredData = data.filter((item) =>
-    item.supervisor.name.toLowerCase().includes(search.toLowerCase())
-  );
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await fetch("http://127.0.0.1:8000/api/etudiant");
+          if (response.ok) {
+            const fetchedData = await response.json();
+            console.log("Fetched Data:", fetchedData);
+            setData(fetchedData); 
+          } else {
+            setMessage({
+              text: "Erreur lors de la récupération des données.",
+              type: "error",
+            });
+          }
+        } catch (error) {
+          console.error("Fetch Error:", error);
+          setMessage({
+            text: "Une erreur s'est produite. Veuillez réessayer.",
+            type: "error",
+          });
+        }
+      };
+  
+      fetchData();
+    }, []);
+  
+    const handleDelete = async (id) => {
+      console.log(id);
+      try {
+    
+        const response = await fetch(`http://127.0.0.1:8000/api/etudiant/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+    
+
+        if (response.ok) {
+        
+          setData((prevData) => prevData.filter((item) => item.id_utilisateur !== id));
+        
+        } else {
+         
+        }
+      } catch (error) {
+        console.error("Error deleting item:", error);
+      
+      }
+    };
+    
+    const handleEdit = (rowData) => {
+      setActiveComponent(rowData);
+    };
+    const filteredData = data.filter((item) =>
+      item.nom?.toLowerCase().includes(search.toLowerCase())
+    );
+  
 
   return (
     <div style={{ padding: "0%", width: "100%" }}>
@@ -72,7 +90,7 @@ const Table = () => {
               {message.text}
             </div>
           )}
-      {/* شريط الإدخال والأزرار */}
+      {}
       <div
         style={{
           marginBottom: "2%",
@@ -98,21 +116,7 @@ const Table = () => {
               minWidth: "200px",
             }}
           />
-          <button
-            style={{
-              padding: "1%",
-              fontSize: "1vw",
-              backgroundColor: "#28a745",
-              color: "white",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-              flexShrink: "0", 
-            }}
-            onClick={() => alert("Filter Applied!")}
-          >
-            Filter
-          </button>
+          
         </div>
 
         {}
@@ -127,7 +131,7 @@ const Table = () => {
             cursor: "pointer",
             flexShrink: "0",
           }}
-          onClick={() => alert("Add New Project!")}
+          onClick={setActiveComponent}
         >
           Add New Project
         </button>
@@ -135,43 +139,42 @@ const Table = () => {
 
       {}
       <div
-        style={{
-          maxHeight: "70vh", 
-          overflowY: "auto",
-          border: "1px solid #ddd", 
-          borderRadius: "5px",
-        }}
+       
       >
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
 
           <thead>
             <tr>
-              <th style={styles.th}>noms</th>
-              <th style={styles.th}>prénoms</th>
-              <th style={styles.th}>options de master</th>
-              <th style={styles.th}>la moyenne générale </th>
-              <th style={styles.th}>Actions</th>
+            <th style={styles.th}>Nom</th>
+            <th style={styles.th}>Prenom</th>
+            <th style={styles.th}>Type Utilisateur</th>
+            <th style={styles.th}>Email</th>
+            <th style={styles.th}>moyenne</th>
+            <th style={styles.th}>option</th>
+            <th style={styles.th}>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {filteredData.length > 0 ? (
-              filteredData.map((row, index) => (
-                <tr
-                  key={index}
-                  style={index % 2 === 0 ? styles.evenRow : styles.oddRow}
-                >
-                  <td style={styles.td}>{row.title}</td>
-                  <td style={styles.td}>{row.description}</td>
-                  <td style={styles.td}>
-                 
-                      {row.supervisor.name}
-                  </td>
-                  <td style={styles.td}>
-                  {row.status}          
-                  </td>
-                  <td style={styles.td}>
-                    <button style={styles.selectButton}>Edit</button>
-                    <button style={styles.viewButton} onClick={handleSubmit}>Delete</button>
+          {filteredData.length > 0 ? (
+            filteredData.map((row, index) => (
+              <tr
+                key={index}
+                style={index % 2 === 0 ? styles.evenRow : styles.oddRow}
+              >
+                <td style={styles.td}>{row.nom || "N/A"}</td>
+                <td style={styles.td}>{row.prenom || "N/A"}</td>
+                <td style={styles.td}>{row.type_utilisateur || "N/A"}</td>
+                <td style={styles.td}>{row.adresse_email || "N/A"}</td>
+                <td style={styles.td}>{row.moyenne_m1 || "N/A"}</td>
+                <td style={styles.td}>{row.intitule_option || "N/A"}</td>
+                <td style={styles.td}>
+                  <button style={styles.selectButton}
+                  onClick={() => handleEdit(row)}
+                  >Edit</button>
+                    <button
+                    style={styles.viewButton}
+                    onClick={() => handleDelete(row.id_utilisateur)}
+                    >Delete</button>
 
                   </td>
                 </tr>
@@ -240,3 +243,16 @@ const styles = {
 };
 
 export default Table;
+
+
+
+
+
+
+
+
+
+
+
+
+
