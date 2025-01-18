@@ -5,12 +5,15 @@ import Content from './Content';
 import styles5 from "../App.module.css"; 
 
 const Admin = () => {
-  const [activeComponent1, setActiveComponent] = useState("UploadFile"); 
+  const [activeComponent1, setActiveComponent] = useState("FormulaireSelection"); 
 
   return (
     <div className={styles5.appcontainer}>
       <Sidebar setActiveComponent={setActiveComponent} />
-      <div className={styles5.maincontent}>
+      <div className={styles5.maincontent}
+      style={{
+        width: "85%",     
+      }}>
         <TopBar />
         <Content setActiveComponent={setActiveComponent} activeComponent1={activeComponent1} />
       </div>

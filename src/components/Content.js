@@ -50,7 +50,8 @@ import ValideEntr from "./ValideEntr";
 import ValideEtud from "./ValideEtud";
 import ValidEnsg from "./ValidEnsg";
 import AdminCharts from "./AdminCharts";
-
+import ListeProjets from "./ListeProjets";
+import FormulaireSelection from "./FormulaireSelection";
 const Content = ({ activeComponent1 }) => {
   const [activeComponent, setActiveComponent] = useState("Table");
   const [data, setData] = useState(null);
@@ -81,6 +82,10 @@ const Content = ({ activeComponent1 }) => {
         return <EmailTemplateManager />;
       case "UploadFile":
         return <UploadFile />;
+      case "ListeProjets":
+        return <ListeProjets />;  
+      case "FormulaireSelection":
+          return <FormulaireSelection />;   
       case "PFEEtudiant":
         return <PFEEtudiant />;
       case "ProjectSelection":

@@ -5,6 +5,7 @@ import AdminPage from "./components/Admin";
 import Etud from "./components/Etud";
 import Ensg from "./components/Ensg";
 import styles4 from "./App.module.css"; 
+import Entre from "./components/Entre";
 const App = () => {
   return (
     <Router>
@@ -17,6 +18,7 @@ const App = () => {
           <Route path="/admin" element={<AdminPage />} />
           <Route path="/etudiant" element={<Etud />} />
           <Route path="/enseignant" element={<Ensg />} />
+          <Route path="/entreprise" element={<Entre />} />
           {}
           <Route path="*" element={<Navigate to="/login" />} />
         </Routes>

@@ -2,9 +2,9 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import "./FormEtud.css";
 const FormulairePFEEnseignant = () => {
-  const [formData, setFormData] = useState({
+   const [formData, setFormData] = useState({
     nomEncadrant: '',
-    prenomEncadrant: '',
+   prenomEncadrant: '',
     co_encadrant: '', 
     intitule_option: '',
     type_pf: '',
@@ -23,6 +23,7 @@ const FormulairePFEEnseignant = () => {
  
   const handleInputChange = async (e) => {
       const value = e.target.value;
+      console.log(value);
       setQuery(value);
 
       if (value.length > 1) { 

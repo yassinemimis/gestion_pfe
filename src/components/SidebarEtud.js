@@ -53,7 +53,7 @@ const SidebarEtud = ({ setActiveComponent }) => {
       }}
     >
       <div className={styles2.logo}>LOGO</div>
-      <div className={styles2.divider}></div>
+     
 
       <List>
         {/* Dashboard */}
@@ -66,7 +66,7 @@ const SidebarEtud = ({ setActiveComponent }) => {
         </ListItem>
        
         {/* Posts */}
-        <ListItem   button onClick={() => setActiveComponent("EmailTemplateManager")}>
+        <ListItem   button onClick={() => setActiveComponent("PFEEtudiant")}>
           <ListItemIcon>
             <Article />
           </ListItemIcon>
@@ -82,7 +82,7 @@ const SidebarEtud = ({ setActiveComponent }) => {
         </ListItem> */}
 
         {/* Income Section */}
-        <ListItem button onClick={() => setActiveComponent("UploadFile")}>
+        <ListItem button onClick={() => setActiveComponent("FormulaireSelection")}>
           <ListItemIcon>
             <Article />
           </ListItemIcon>

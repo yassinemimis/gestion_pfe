@@ -37,15 +37,15 @@ const PFEEtudiant = () => {
       }
   };
 
-  // تحديد العنصر من القائمة
+  
   const handleSelectItem = (item) => {
-      setSelectedItem(item); // حفظ العنصر المختار
+      setSelectedItem(item); 
       setQuery(`${item.nom} ${item.prenom}`);
       console.log(item.intitule_option);
       formData.intitule_option=`${item.intitule_option}`;
       formData.affectation2=`${item.id}`;
-      // تحديث حقل الإدخال بالنص
-      setSuggestions([]); // إخفاء القائمة
+     
+      setSuggestions([]);
   };
  
 
@@ -58,7 +58,7 @@ const PFEEtudiant = () => {
     e.preventDefault();
     console.log('Form Data:', formData);
 
-    // إرسال البيانات إلى السيرفر
+
     fetch('http://127.0.0.1:8000/api/themes', {
       method: 'POST',
       headers: {
@@ -81,7 +81,7 @@ const PFEEtudiant = () => {
     <form onSubmit={handleSubmit}>
       
       <div>
-      <div style={{ marginTop: "10px", display: "flex", alignItems: "center" }}>
+       <div style={{ marginTop: "10px", display: "flex", alignItems: "center" }}>
                 <label htmlFor="toggleSwitch" style={{ marginRight: "10px" }}>Ajouter un binôme</label>
                 <div
                     onClick={() => setEnableSuggestions(!enableSuggestions)}
@@ -117,7 +117,7 @@ const PFEEtudiant = () => {
                 value={query}
                 onChange={handleInputChange}
                 placeholder="binôme"
-                disabled={!enableSuggestions} // تعطيل الإدخال إذا كان switch مغلقًا
+                disabled={!enableSuggestions} 
                 style={{
                     width: "100%",
                     padding: "8px",
@@ -127,7 +127,7 @@ const PFEEtudiant = () => {
                 }}
             />
 
-            {/* Switch لتفعيل أو تعطيل الإضافة */}
+            {}
            
 
             {}
