@@ -37,7 +37,8 @@ const ProjectSelection = () => {
   
     const assignments = selectedProjects.map((projectId) => ({
         id_theme: projectId,
-      encadrant_president: 2,
+      encadrant_president: id_ens,
+      
     }));
 
     try {
@@ -76,6 +77,7 @@ const ProjectSelection = () => {
               <th>Sélectionner</th>
               <th>Titre du Projet</th>
               <th>Description</th>
+              <th>Description</th>
             </tr>
           </thead>
           <tbody>
@@ -84,13 +86,14 @@ const ProjectSelection = () => {
                 <td>
                   <input
                     type="checkbox"
-                    value={project.id}
+                    value={project.id_theme}
                     checked={selectedProjects.includes(project.id_theme)}
                     onChange={() => handleSelectionChange(project.id_theme)}
                   />
                 </td>
                 <td>{project.title}</td>
                 <td>{project.description}</td>
+                <td>{project.id_entreprise}</td>
               </tr>
             ))}
           </tbody>

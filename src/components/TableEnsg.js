@@ -133,7 +133,7 @@ const TableEnsg = ({ onSwitchToForm1 }) => {
           }}
           onClick={onSwitchToForm1}
         >
-          Add New Project
+          Ajouter
         </button>
       </div>
 

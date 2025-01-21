@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 const PFEEntreprise = () => {
+  const ident = localStorage.getItem('ident');
   const [formData, setFormData] = useState({
     intitule_option: '',
     type_pf: 'Entreprise',
@@ -9,6 +10,7 @@ const PFEEntreprise = () => {
     technologies_utilisees: '',
     besoins_materiel: '',
     depse: 'Entreprise',
+    id_entreprise: ident,
   });
 
   const [coEncadrants, setCoEncadrants] = useState([]); 

@@ -1,39 +1,59 @@
 import React, { useState } from "react";
 import "./FormEtud.css"; // Importation du CSS
+import axios from "axios";
+const FormComp = ({ data, setActiveComponent }) => {
+  console.log(data.id_entreprise+'ff');
+  const [student, setStudent] = useState({
+    nom: data.nom || "",
+    prenom: data.prenom || "",
+    adresse_email: data.adresse_email || "",
+    password: "password",
+    type_utilisateur: "entreprise",
+    denomination_entreprise: data.denomination_entreprise|| "",
+    id_utilisateur: data.id_utilisateur || "",
+  });
 
-const FormComp = ({ onSubmit, initialData = {} }) => {
-    const [student, setStudent] = useState({
-        firstName: initialData.firstName || "",
-        lastName: initialData.lastName || "",
-        email: initialData.email || "",
-        lentreprise: initialData.lentreprise || "",
-    });
-
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
     
     const [message, setMessage] = useState({ text: "", type: "" }); 
 
 
     const handleChange = (e) => {
-      setStudent({ ...student, [e.target.name]: e.target.value });
+        let { name, value } = e.target;
+        setStudent({ ...student, [name]: value });
     };
   
 
-    const handleSubmit = (e) => {
-      e.preventDefault();
-     
-      const isSuccess = false;
-  
-      if (isSuccess) {
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(student, 't');
+        console.log(student, 't');
+        try {
+            if(data.id_utilisateur){
+          const response = await axios.put(`http://127.0.0.1:8000/api/entreprise/${data.id_entreprise}`, student, {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          });
+        }
+          else {
+    
+            await axios.post("http://127.0.0.1:8000/api/entreprise", student);
+            setSuccessMessage("Les données ont été envoyées avec succès!");
+            setErrorMessage(""); 
+          }
         setMessage({ text: "Action réussie ! L'étudiant a été ajouté.", type: "success" });
-      } else {
-        setMessage({ text: "Une erreur s'est produite. Veuillez réessayer.", type: "error" });
-      }
   
-     
-      setTimeout(() => {
-        setMessage({ text: "", type: "" });
-      }, 3000);
-    };
+      
+      
+          setActiveComponent(student); 
+        } catch (error) {
+          console.error("Error updating data:", error.response ? error.response.data : error.message);
+          setMessage({ text: "Une erreur s'est produite. Veuillez réessayer.", type: "error" });
+        }
+      };
+    
 
     return (
         <div className="custom-table">
@@ -50,8 +70,8 @@ const FormComp = ({ onSubmit, initialData = {} }) => {
                     <input
                         type="text"
                         id="firstName"
-                        name="firstName"
-                        value={student.firstName}
+                        name="nom"
+                        value={student.nom}
                         onChange={handleChange}
                         required
                     />
@@ -62,8 +82,8 @@ const FormComp = ({ onSubmit, initialData = {} }) => {
                     <input
                         type="text"
                         id="lastName"
-                        name="lastName"
-                        value={student.lastName}
+                        name="prenom"
+                        value={student.prenom}
                         onChange={handleChange}
                         required
                     />
@@ -77,8 +97,8 @@ const FormComp = ({ onSubmit, initialData = {} }) => {
                     <input
                         type="email"
                         id="email"
-                        name="email"
-                        value={student.email}
+                        name="adresse_email"
+                        value={student.adresse_email}
                         onChange={handleChange}
                         required
                     />
@@ -89,8 +109,8 @@ const FormComp = ({ onSubmit, initialData = {} }) => {
                     <input
                         type="text"
                         id="option"
-                        name="option"
-                        value={student.option}
+                        name="denomination_entreprise"
+                        value={student.denomination_entreprise}
                         onChange={handleChange}
                         required
                     />

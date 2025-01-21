@@ -66,13 +66,18 @@ const SidebarEtud = ({ setActiveComponent }) => {
         </ListItem>
        
         {/* Posts */}
-        <ListItem   button onClick={() => setActiveComponent("PFEEtudiant")}>
+        <ListItem   button onClick={() => setActiveComponent("PFEEntreprise")}>
           <ListItemIcon>
             <Article />
           </ListItemIcon>
           <ListItemText primary="propositions de projets" />
         </ListItem>
-
+         <ListItem button onClick={() => setActiveComponent("PropositionsEntrPage")}>
+                   <ListItemIcon>
+                     <Article />
+                   </ListItemIcon>
+                   <ListItemText primary="Voir ma proposition" />         
+                 </ListItem>
         {/* Schedules */}
         {/* <ListItem button>
           <ListItemIcon>
@@ -80,19 +85,7 @@ const SidebarEtud = ({ setActiveComponent }) => {
           </ListItemIcon>
           <ListItemText primary="Schedules" />
         </ListItem> */}
-      <ListItem button onClick={() => setActiveComponent("PropositionsPage")}>
-          <ListItemIcon>
-            <Article />
-          </ListItemIcon>
-          <ListItemText primary="Voir ma proposition" />         
-        </ListItem>
-        {/* Income Section */}
-        <ListItem button onClick={() => setActiveComponent("FormulaireSelection")}>
-          <ListItemIcon>
-            <Article />
-          </ListItemIcon>
-          <ListItemText primary="Choix des projets" />         
-        </ListItem>
+
       </List>
 
       {/* Divider */}

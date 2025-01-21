@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import "./FormEtud.css";
+
 const FormulairePFEEnseignant = () => {
-  const [formData, setFormData] = useState({
+  const id_ens = localStorage.getItem('id_ens');
+   const [formData, setFormData] = useState({
     nomEncadrant: '',
-    prenomEncadrant: '',
+   prenomEncadrant: '',
     co_encadrant: '', 
     intitule_option: '',
     type_pf: '',
@@ -13,6 +15,7 @@ const FormulairePFEEnseignant = () => {
     technologies_utilisees: '',
     besoins_materiel: '',
     depse: 'Enseignant',
+    encadrant_president: id_ens,
   });
 
   const [coEncadrants, setCoEncadrants] = useState([]);
@@ -23,6 +26,7 @@ const FormulairePFEEnseignant = () => {
  
   const handleInputChange = async (e) => {
       const value = e.target.value;
+      console.log(value);
       setQuery(value);
 
       if (value.length > 1) { 
@@ -106,7 +110,8 @@ const FormulairePFEEnseignant = () => {
             {}
            
         </div>
-      <div>
+        <div className="row">
+      <div className="column">
         <label>Option:</label>
         <select
           name="intitule_option"
@@ -120,7 +125,7 @@ const FormulairePFEEnseignant = () => {
           <option value="4">SIC</option>
         </select>
       </div>
-      <div>
+      <div className="column">
         <label>Type Sujet:</label>
         <select
           name="type_pf"
@@ -131,6 +136,7 @@ const FormulairePFEEnseignant = () => {
           <option value="classique">Classique</option>
           <option value="innovant">Innovant</option>
         </select>
+      </div>
       </div>
       <div>
         <label>Intitulé du PFE:</label>

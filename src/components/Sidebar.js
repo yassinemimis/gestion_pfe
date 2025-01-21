@@ -213,7 +213,7 @@ const Sidebar = ({ setActiveComponent }) => {
       }}
     >
       <div className={styles2.logo}>LOGO</div>
-      <div className={styles2.divider}></div>
+
 
       <List>
         {/* Dashboard */}

@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 const PFEEtudiant = () => {
-  const idetud = localStorage.getItem('idetud');
+  const idetud = localStorage.getItem('id_etud');
   const [formData, setFormData] = useState({
     nomEncadrant: '',
     prenomEncadrant: '',
     affectation1: idetud,
     affectation2: '', 
+    affectation2email:'',
     intitule_option: '',
     type_pf: '',
     titre_theme: '',
@@ -37,15 +38,15 @@ const PFEEtudiant = () => {
       }
   };
 
-  // تحديد العنصر من القائمة
+  
   const handleSelectItem = (item) => {
-      setSelectedItem(item); // حفظ العنصر المختار
+      setSelectedItem(item); 
       setQuery(`${item.nom} ${item.prenom}`);
       console.log(item.intitule_option);
       formData.intitule_option=`${item.intitule_option}`;
       formData.affectation2=`${item.id}`;
-      // تحديث حقل الإدخال بالنص
-      setSuggestions([]); // إخفاء القائمة
+      formData.affectation2email=`${item.adresse_email}`;
+      setSuggestions([]);
   };
  
 
@@ -58,7 +59,7 @@ const PFEEtudiant = () => {
     e.preventDefault();
     console.log('Form Data:', formData);
 
-    // إرسال البيانات إلى السيرفر
+
     fetch('http://127.0.0.1:8000/api/themes', {
       method: 'POST',
       headers: {
@@ -81,7 +82,7 @@ const PFEEtudiant = () => {
     <form onSubmit={handleSubmit}>
       
       <div>
-      <div style={{ marginTop: "10px", display: "flex", alignItems: "center" }}>
+       <div style={{ marginTop: "10px", display: "flex", alignItems: "center" }}>
                 <label htmlFor="toggleSwitch" style={{ marginRight: "10px" }}>Ajouter un binôme</label>
                 <div
                     onClick={() => setEnableSuggestions(!enableSuggestions)}
@@ -117,7 +118,7 @@ const PFEEtudiant = () => {
                 value={query}
                 onChange={handleInputChange}
                 placeholder="binôme"
-                disabled={!enableSuggestions} // تعطيل الإدخال إذا كان switch مغلقًا
+                disabled={!enableSuggestions} 
                 style={{
                     width: "100%",
                     padding: "8px",
@@ -127,7 +128,7 @@ const PFEEtudiant = () => {
                 }}
             />
 
-            {/* Switch لتفعيل أو تعطيل الإضافة */}
+            {}
            
 
             {}
@@ -141,7 +142,7 @@ const PFEEtudiant = () => {
                             onMouseOver={(e) => (e.target.style.background = "#e9e9e9")}
                             onMouseOut={(e) => (e.target.style.background = "#f9f9f9")}
                         >
-                            {item.nom} {item.prenom} - {item.grade_ens}
+                            {item.nom} {item.prenom} - {item.adresse_email}
                         </li>
                     ))}
                 </ul>

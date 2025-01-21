@@ -50,9 +50,13 @@ import ValideEntr from "./ValideEntr";
 import ValideEtud from "./ValideEtud";
 import ValidEnsg from "./ValidEnsg";
 import AdminCharts from "./AdminCharts";
-
-const Content = ({ activeComponent1 }) => {
-  const [activeComponent, setActiveComponent] = useState("Table");
+import ListeProjets from "./ListeProjets";
+import FormulaireSelection from "./FormulaireSelection";
+import PFEEntreprise from "./PFEEntreprise";
+import PropositionsPage from "./maproposition";
+import PropositionsEnsgPage from "./mapropositionEnsg"
+import PropositionsEntrPage from "./mapropositionEntr"
+const Content = ({ activeComponent1, setActiveComponent }) => {
   const [data, setData] = useState(null);
 
   console.log(`${activeComponent1} 5555`);
@@ -60,29 +64,56 @@ const Content = ({ activeComponent1 }) => {
   const handleSwitchToForm = (data) => {
     console.log(data);
     setData(data);
-    setActiveComponent("FormEtud");
+    setActiveComponent("FormEtud"); // تحديث activeComponent1 من المكون الأب
+  
   };
 
   const handleSwitchToForm1 = (data) => {
     console.log("fromensg", data);
     setData(data);
-    setActiveComponent("FormEnsg");
+    setActiveComponent("FormEnsg"); 
   };
-
+  const handleSwitchToForm2 = (data) => {
+    console.log("fromensg", data);
+    setData(data);
+    setActiveComponent("TableEnsg");
+  };
+  const handleSwitchToForm4 = (data) => {
+    console.log("fromensg", data);
+    setData(data);
+    setActiveComponent("Tablecomp"); 
+  };
+  const handleSwitchToForm3 = (data) => {
+    console.log("fromensg", data);
+    setData(data);
+    setActiveComponent("FormComp");
+  };
   const renderComponent = () => {
     switch (activeComponent1) {
       case "Dashboard":
         return <AdminCharts />;
+      case "PropositionsEntrPage":
+          return <PropositionsEntrPage />;  
+      case "PropositionsPage":
+          return <PropositionsPage />;
+      case "PropositionsEnsgPage":
+            return <PropositionsEnsgPage />;      
       case "TableEnsg":
         return <TableEnsg onSwitchToForm1={handleSwitchToForm1} />;
       case "Tablecomp":
-        return <Tablecomp />;
+        return <Tablecomp onSwitchToForm1={handleSwitchToForm3}/>;
       case "EmailTemplateManager":
         return <EmailTemplateManager />;
       case "UploadFile":
         return <UploadFile />;
+      case "ListeProjets":
+        return <ListeProjets />;
+      case "FormulaireSelection":
+        return <FormulaireSelection />;
       case "PFEEtudiant":
         return <PFEEtudiant />;
+      case "PFEEntreprise":
+        return <PFEEntreprise />;  
       case "ProjectSelection":
         return <ProjectSelection />;
       case "FormulairePFEEnseignant":
@@ -96,13 +127,13 @@ const Content = ({ activeComponent1 }) => {
       case "ValidEnsg":
         return <ValidEnsg />;
       case "Table":
-        return <Table onSwitchToForm={handleSwitchToForm} />;
+        return <Table setActiveComponent={handleSwitchToForm} />;
       case "FormEtud":
         return <FormEtud data={data} setActiveComponent={setActiveComponent} />;
       case "FormComp":
-        return <FormComp data={data} />;
+        return <FormComp data={data} setActiveComponent={handleSwitchToForm4}/>;
       case "FormEnsg":
-        return <FormEnsg data={data} setActiveComponent={setActiveComponent} />;
+        return <FormEnsg data={data}  setActiveComponent={handleSwitchToForm2}  />;
       default:
         return <div>Composant inconnu</div>;
     }
@@ -112,4 +143,3 @@ const Content = ({ activeComponent1 }) => {
 };
 
 export default Content;
-

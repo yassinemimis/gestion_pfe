@@ -1,44 +1,93 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "./Table.css";
 
-const data = [
-  {
-    noms: "Artificial Intelligence Project",
-    prenoms: "A project",
-    emails: "example@email.com" ,
-    lentreprise: "15/APR/2020",
-  },
-  {
-    noms: "Artificial Intelligence Project",
-    prenoms: "A project",
-    emails: "example@email.com" ,
-    lentreprise: "15/APR/2020",
-  },
-  {
-    noms: "Artificial Intelligence Project",
-    prenoms: "A project",
-    emails: "example@email.com" ,
-    lentreprise: "15/APR/2020",
-  },
-  {
-    noms: "Artificial Intelligence Project",
-    prenoms: "A project",
-    emails: "example@email.com" ,
-    lentreprise: "15/APR/2020",
-  },
- 
-];
-
-const Tablecomp = () => {
+const Tablecomp = ({ onSwitchToForm1 }) => {
+  const [data, setData] = useState([]);
   const [search, setSearch] = useState("");
+ 
+    const [message, setMessage] = useState({ text: "", type: "" }); 
+    const handleSubmit = (e) => {
+      e.preventDefault();
 
+      const isSuccess = true; 
+  
+      if (isSuccess) {
+        setMessage({ text: "Action réussie ! L'étudiant a été ajouté.", type: "success" });
+      } else {
+        setMessage({ text: "Une erreur s'est produite. Veuillez réessayer.", type: "error" });
+      }
+  
+      
+      setTimeout(() => {
+        setMessage({ text: "", type: "" });
+      }, 3000);
+    };
+    useEffect(() => {
+      const fetchData = async () => {
+        try {
+          const response = await fetch("http://127.0.0.1:8000/api/entreprise");
+          if (response.ok) {
+            const fetchedData = await response.json();
+            console.log("Fetched Data:", fetchedData);
+            setData(fetchedData); 
+          } else {
+            setMessage({
+              text: "Erreur lors de la récupération des données.",
+              type: "error",
+            });
+          }
+        } catch (error) {
+          console.error("Fetch Error:", error);
+          setMessage({
+            text: "Une erreur s'est produite. Veuillez réessayer.",
+            type: "error",
+          });
+        }
+      };
+  
+      fetchData();
+    }, []);
+  
+    const handleDelete = async (id) => {
+      console.log(id);
+      try {
+    
+        const response = await fetch(`http://127.0.0.1:8000/api/entreprise/${id}`, {
+          method: "DELETE",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        });
+    
 
-  const filteredData = data.filter((item) =>
-    item.lentreprise.toLowerCase().includes(search.toLowerCase())
-  );
+        if (response.ok) {
+        
+          setData((prevData) => prevData.filter((item) => item.id_utilisateur !== id));
+        
+        } else {
+         
+        }
+      } catch (error) {
+        console.error("Error deleting item:", error);
+      
+      }
+    };
+    
+    const handleEdit = (rowData) => {
+      onSwitchToForm1(rowData);
+    };
+    const filteredData = data.filter((item) =>
+      item.nom?.toLowerCase().includes(search.toLowerCase())
+    );
+  
 
   return (
     <div style={{ padding: "0%", width: "100%" }}>
+      {message.text && (
+            <div className={`message ${message.type}`}>
+              {message.text}
+            </div>
+          )}
       {}
       <div
         style={{
@@ -46,8 +95,8 @@ const Tablecomp = () => {
           display: "flex",
           justifyContent: "space-between",
           alignItems: "center",
-          flexWrap: "wrap",
-          gap: "10px", 
+          flexWrap: "wrap", 
+          gap: "10px",
         }}
       >
         <div style={{ display: "flex", gap: "2%", flex: "1" }}>
@@ -57,29 +106,15 @@ const Tablecomp = () => {
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             style={{
-              flex: "1", 
+              flex: "1",
               padding: "1%",
               fontSize: "1vw",
               border: "1px solid #ccc",
               borderRadius: "5px",
-              minWidth: "200px", 
+              minWidth: "200px",
             }}
           />
-          <button
-            style={{
-              padding: "1%",
-              fontSize: "1vw",
-              backgroundColor: "#28a745",
-              color: "white",
-              border: "none",
-              borderRadius: "5px",
-              cursor: "pointer",
-              flexShrink: "0",   
-            }}
-            onClick={() => alert("Filter Applied!")}
-          >
-            Filter
-          </button>
+          
         </div>
 
         {}
@@ -92,52 +127,50 @@ const Tablecomp = () => {
             border: "none",
             borderRadius: "5px",
             cursor: "pointer",
-            flexShrink: "0", 
+            flexShrink: "0",
           }}
-          onClick={() => alert("Add New Project!")}
+          onClick={onSwitchToForm1}
         >
-          Add New Project
+          Ajouter
         </button>
       </div>
 
       {}
       <div
-        style={{
-          maxHeight: "70vh", 
-          overflowY: "auto", 
-          border: "1px solid #ddd", 
-          borderRadius: "5px",
-        }}
+       
       >
         <table style={{ width: "100%", borderCollapse: "collapse" }}>
+
           <thead>
             <tr>
-              <th style={styles.th}>noms</th>
-              <th style={styles.th}>prénoms</th>
-              <th style={styles.th}>emails</th>
-              <th style={styles.th}>lentreprise</th>
-              <th style={styles.th}>Actions</th>
+            <th style={styles.th}>Nom</th>
+            <th style={styles.th}>Prenom</th>
+            <th style={styles.th}>Type Utilisateur</th>
+            <th style={styles.th}>Email</th>
+            <th style={styles.th}>Actions</th>
             </tr>
           </thead>
           <tbody>
-            {filteredData.length > 0 ? (
-              filteredData.map((row, index) => (
-                <tr
-                  key={index}
-                  style={index % 2 === 0 ? styles.evenRow : styles.oddRow}
-                >
-                  <td style={styles.td}>{row.noms}</td>
-                  <td style={styles.td}>{row.prenoms}</td>
-                  <td style={styles.td}>
-                 
-                      {row.emails}
-                  </td>
-                  <td style={styles.td}>
-                  {row.lentreprise}          
-                  </td>
-                  <td style={styles.td}>
-                    <button style={styles.selectButton}>Edit</button>
-                    <button style={styles.viewButton}>Delete</button>
+          {filteredData.length > 0 ? (
+            filteredData.map((row, index) => (
+              <tr
+                key={index}
+                style={index % 2 === 0 ? styles.evenRow : styles.oddRow}
+              >
+                <td style={styles.td}>{row.nom || "N/A"}</td>
+                <td style={styles.td}>{row.prenom || "N/A"}</td>
+                <td style={styles.td}>{row.type_utilisateur || "N/A"}</td>
+                <td style={styles.td}>{row.adresse_email || "N/A"}</td>
+
+                <td style={styles.td}>
+                  <button style={styles.selectButton}
+                  onClick={() => handleEdit(row)}
+                  >Edit</button>
+                    <button
+                    style={styles.viewButton}
+                    onClick={() => handleDelete(row.id_utilisateur)}
+                    >Delete</button>
+
                   </td>
                 </tr>
               ))
@@ -200,6 +233,14 @@ const styles = {
     cursor: "pointer",
     fontSize: "0.9vw",
   },
+  
+  
 };
 
 export default Tablecomp;
+
+
+
+
+
+

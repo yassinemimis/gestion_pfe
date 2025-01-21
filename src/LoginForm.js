@@ -21,10 +21,13 @@ function LoginForm() {
         localStorage.setItem('est_responsable', response.data.result[0].est_responsable);
       }
       else if(response.data.type_utilisateur=='etudiant'){
-        localStorage.setItem('id', response.data.result[0].id);
+        localStorage.setItem('id_etud', response.data.result[0].id);
+        localStorage.setItem('intitule_option', response.data.result[0].intitule_option);
+        console.log(response.data.result[0].intitule_option+"e");
       }
       else if(response.data.type_utilisateur=='entreprise'){
-        localStorage.setItem('idetud', response.data.result[0].id);
+      
+        localStorage.setItem('ident', response.data.result[0].id_entreprise);
       }
     
       localStorage.setItem('nom', response.data.nom);
@@ -38,7 +41,7 @@ function LoginForm() {
       else if (response.data.type_utilisateur == "enseignant")
         window.location.href = `/enseignant`;
       else if (response.data.type_utilisateur == "entreprise")
-        window.location.href = `/admin`;
+        window.location.href = `/entreprise`;
 
     } catch (error) {
       setError(error.response.data.message || 'Login failed');
