@@ -20,10 +20,10 @@ function ValideEtud() {
       });
   }, []);
 
-  const handleUpdate = (id, status) => {
+  const handleUpdate = (id, status,id2) => {
    
       axios
-        .put(`http://127.0.0.1:8000/api/themes1/${id}`, { status })
+        .put(`http://127.0.0.1:8000/api/themes1/${id}`, { status,id2 })
         .then((response) => {
           alert(response.data.message);
           setProjects((prevProjects) =>
@@ -84,13 +84,13 @@ function ValideEtud() {
                 <td>
                   <button
                     className="btn btn-success btn-sm mx-1"
-                    onClick={() => handleUpdate(project.id_theme, "accepted")}
+                    onClick={() => handleUpdate(project.id_theme, "accepted",1)}
                   >
                     acceptation
                   </button>
                   <button
                     className="btn btn-danger btn-sm mx-1"
-                    onClick={() => handleUpdate(project.id_theme, "rejected")}
+                    onClick={() => handleUpdate(project.id_theme, "rejected",1)}
                   >
                     rejeter
                   </button>

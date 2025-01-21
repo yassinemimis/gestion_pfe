@@ -4,7 +4,7 @@ import Content from './Content';
 import styles5 from "../App.module.css"; 
 import SidebarEtud from "./SidebarEtud"
 const Etud = () => {
-  const [activeComponent1, setActiveComponent] = useState("FormulaireSelection"); 
+  const [activeComponent1, setActiveComponent] = useState("PropositionsPage"); 
 
   return (
     <div className={styles5.appcontainer}>

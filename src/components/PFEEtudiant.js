@@ -1,12 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 const PFEEtudiant = () => {
-  const idetud = localStorage.getItem('idetud');
+  const idetud = localStorage.getItem('id_etud');
   const [formData, setFormData] = useState({
     nomEncadrant: '',
     prenomEncadrant: '',
     affectation1: idetud,
     affectation2: '', 
+    affectation2email:'',
     intitule_option: '',
     type_pf: '',
     titre_theme: '',
@@ -44,7 +45,7 @@ const PFEEtudiant = () => {
       console.log(item.intitule_option);
       formData.intitule_option=`${item.intitule_option}`;
       formData.affectation2=`${item.id}`;
-     
+      formData.affectation2email=`${item.adresse_email}`;
       setSuggestions([]);
   };
  
@@ -141,7 +142,7 @@ const PFEEtudiant = () => {
                             onMouseOver={(e) => (e.target.style.background = "#e9e9e9")}
                             onMouseOut={(e) => (e.target.style.background = "#f9f9f9")}
                         >
-                            {item.nom} {item.prenom} - {item.grade_ens}
+                            {item.nom} {item.prenom} - {item.adresse_email}
                         </li>
                     ))}
                 </ul>

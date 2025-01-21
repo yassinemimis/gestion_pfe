@@ -91,6 +91,12 @@ const SidebarEnsg = ({ setActiveComponent }) => {
           <ListItemText primary="projets à encadrer" />
         </ListItem>
       </List>
+      <ListItem button onClick={() => setActiveComponent("PropositionsEnsgPage")}>
+                <ListItemIcon>
+                  <Article />
+                </ListItemIcon>
+                <ListItemText primary="Voir ma proposition" />         
+              </ListItem>
       {est_responsable == 0 ? (
         <div></div>
       ) : (

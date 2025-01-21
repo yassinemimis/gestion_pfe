@@ -1,24 +1,27 @@
 import React, { useState, useEffect } from "react";
 import axios from 'axios';
 const FormulaireSelection = () => {
-  const [projects, setProjects] = useState([]); 
+  // حالة المشاريع
+  const [projects, setProjects] = useState([]); // قائمة المشاريع
   const [loading, setLoading] = useState(true); // حالة التحميل
-  const [selectedProjects, setSelectedProjects] = useState([]); // المشاريع المختارة
+  const [selectedProject, setSelectedProject] = useState(""); // المشروع المختار
   const [error, setError] = useState(""); // الأخطاء
-  const idetud = localStorage.getItem("id_etud");
-  const intitule_option = localStorage.getItem("intitule_option");
- const [coEncadrants, setCoEncadrants] = useState([]); 
+  const idetud = localStorage.getItem('id_etud');
+  const intitule_option =localStorage.getItem('intitule_option');
+  const [formData, setFormData] = useState({
+    "id_etu": idetud,
+    "id_etu2": 3,
+    "id_theme": 5
+}
+);
+  const [coEncadrants, setCoEncadrants] = useState([]); 
   const [query, setQuery] = useState('');
   const [suggestions, setSuggestions] = useState([]);
   const [selectedItem, setSelectedItem] = useState(null); 
   const [enableSuggestions, setEnableSuggestions] = useState(true);
-    const [formData, setFormData] = useState({
-      "id_etu": idetud,
-      "id_etu2": 3,
-      "id_theme": 5
-  }
-  );
+  // جلب البيانات من API
   useEffect(() => {
+    console.log(intitule_option);
     const fetchProjects = async () => {
       try {
         const response = await fetch("http://127.0.0.1:8000/api/projects", {
@@ -28,34 +31,30 @@ const FormulaireSelection = () => {
           },
           body: JSON.stringify({ intitule_option: intitule_option }), // تمرير الخيار كـ JSON
         });
-
         if (!response.ok) {
           throw new Error("Erreur lors du chargement des projets.");
         }
         const data = await response.json();
-        setProjects(data); // تخزين المشاريع
+        setProjects(data); // تخزين قائمة المشاريع في الحالة
+        console.log(data); // التحقق من البيانات
       } catch (err) {
         setError(err.message);
       } finally {
-        setLoading(false);
+        setLoading(false); // إيقاف حالة التحميل
       }
     };
 
     fetchProjects();
-  }, [intitule_option]);
+  }, []);
 
-  // التعامل مع الاختيار
-  const handleProjectSelect = (id_theme) => {
-    if (selectedProjects.includes(id_theme)) {
-      setSelectedProjects(selectedProjects.filter((id) => id !== id_theme));
-    } else {
-      if (selectedProjects.length < 10) {
-        setSelectedProjects([...selectedProjects, id_theme]);
-      } else {
-        alert("Vous ne pouvez sélectionner que 10 projets au maximum !");
-      }
-    }
+
+  const handleProjectSelect = (e) => {
+    setSelectedProject(e.target.value);
+    console.log("kjkj"+e.target.value);
+    formData.id_theme=e.target.value;
   };
+
+
   const truncateDescription = (description, maxLength) => {
     if (description && description.length > maxLength) {
       return description.substring(0, maxLength) + "...";
@@ -89,76 +88,81 @@ const handleSelectItem = (item) => {
     setSuggestions([]);
 };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    fetch("http://127.0.0.1:8000/api/choix", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        id_etu: idetud,
-        id_themes: selectedProjects,
-      }),
-    })
-      .then((response) => {
-        if (response.ok) {
-          alert("Formulaire soumis avec succès !");
-        } else {
-          alert("Une erreur s'est produite lors de la soumission.");
-        }
-      })
-      .catch((error) => console.error("Error submitting form:", error));
-  };
+const handleSubmit = (e) => {
+  e.preventDefault();
+  console.log('Form Data:', formData);
 
+  
+  fetch('http://127.0.0.1:8000/api/choix', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify(formData),
+  })
+    .then((response) => {
+      if (response.ok) {
+        alert('Formulaire soumis avec succès !');
+      } else {
+        alert('Une erreur s\'est produite.');
+      }
+    })
+    .catch((error) => console.error('Error submitting form:', error));
+};
   return (
     <div>
-      <h2>Choisir jusqu'à 10 Projets</h2>
+      <h2>Choisir un Projet</h2>
 
-      {/* تحميل البيانات */}
+      {/* عرض حالة التحميل */}
       {loading && <p>Chargement des projets...</p>}
+
+      {/* عرض خطأ في حالة فشل التحميل */}
       {error && <p style={{ color: "red" }}>{error}</p>}
 
-      {/* عرض المشاريع */}
+      {/* عرض القائمة عند انتهاء التحميل */}
       {!loading && !error && (
         <form onSubmit={handleSubmit}>
-          <div style={{ display: "flex", flexDirection: "column", gap: "10px" }}>
-            <div style={{ maxHeight: "400px", overflowY: "auto", border: "1px solid #ccc", padding: "10px" }}>
-              {projects.length > 0 ? (
-                projects.map((project) => (
-                  <div key={project.id_theme} style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-                    <input
-                      type="checkbox"
-                      id={`project-${project.id_theme}`}
-                      value={project.id_theme}
-                      onChange={() => handleProjectSelect(project.id_theme)}
-                      checked={selectedProjects.includes(project.id_theme)}
-                    />
-                    <label htmlFor={`project-${project.id_theme}`}>
-                      {project.titre_theme || "Titre non disponible"}
-                    </label>
-                  </div>
-                ))
-              ) : (
-                <p>Aucun projet disponible</p>
-              )}
-            </div>
-
-            {/* عرض المشاريع المختارة */}
-            {selectedProjects.length > 0 && (
-              <div>
-                <h4>Projets sélectionnés:</h4>
-                <ul>
-                  {selectedProjects.map((id_theme) => (
-                    <li key={id_theme}>
-                      {projects.find((p) => p.id_theme === id_theme)?.titre_theme || "Titre non disponible"}
-                    </li>
-                  ))}
-                </ul>
-              </div>
+          <label htmlFor="projectSelect">Sélectionnez un projet:</label>
+          <select
+            id="projectSelect"
+            value={selectedProject}
+            onChange={handleProjectSelect}
+            required
+          >
+            <option value="" disabled>
+              -- Choisissez un projet --
+            </option>
+            {projects.length > 0 ? (
+              projects.map((project) => (
+                <option key={project.id_theme} value={project.id_theme}>
+                  {project.titre_theme || "Titre non disponible"}
+                </option>
+              ))
+            ) : (
+              <option disabled>Aucun projet disponible</option>
             )}
-          </div>
-          <div style={{ marginTop: "10px", display: "flex", alignItems: "center" }}>
+          </select>
+
+          {/* إظهار تفاصيل المشروع المحدد */}
+          {selectedProject && (
+            <div>
+           
+              <p> <strong>Titre:</strong>
+                {projects.find((p) => p.id_theme === parseInt(selectedProject))?.titre_theme || "Titre non disponible"}
+              </p>
+              <p>
+                <strong>Description:</strong>{" "}
+                {truncateDescription(
+                  projects.find((p) => p.id_theme === parseInt(selectedProject))?.description
+                )}
+              </p>
+              <p> <strong>Type:</strong>
+                {projects.find((p) => p.id_theme === parseInt(selectedProject))?.type_pf || "Titre non disponible"}
+              </p>
+            </div>
+          )}
+           <div>
+         <div style={{ marginTop: "10px", display: "flex", alignItems: "center" }}>
                 <label htmlFor="toggleSwitch" style={{ marginRight: "10px" }}>Ajouter un binôme</label>
                 <div
                     onClick={() => setEnableSuggestions(!enableSuggestions)}
@@ -226,11 +230,10 @@ const handleSelectItem = (item) => {
             )}
 
        
-        
+        </div>
 
-          <button type="submit" style={{ marginTop: "20px", padding: "10px 20px" }}>
-            Soumettre
-          </button>
+        <button type="submit">Soumettre</button>
+   
         </form>
       )}
     </div>

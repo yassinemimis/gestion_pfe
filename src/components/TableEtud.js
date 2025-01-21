@@ -133,7 +133,7 @@ const Table = ({ setActiveComponent }) => {
           }}
           onClick={setActiveComponent}
         >
-          Add New Project
+         Ajouter
         </button>
       </div>
 

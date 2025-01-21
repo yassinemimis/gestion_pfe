@@ -1,21 +1,50 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import styles from './TopBar.module.css';
 import PROFILE from '../assets/12.jpg';
+import axios from 'axios';
 
 const TopBar = () => {
   const [showNotifications, setShowNotifications] = useState(false);
-  const [notifications, setNotifications] = useState([
-    { message: "Welcome to the platform! This is your first notification.", id: 1 },
-    { message: "New updates available for your project!", id: 2 },
-    { message: "Don't forget to check the latest assignments.", id: 3 }
-  ]);
-  const [unreadCount, setUnreadCount] = useState(notifications.length);
+  const [notifications, setNotifications] = useState([]);
+  const [unreadCount, setUnreadCount] = useState(0); // Set the initial unread count as 0
 
   const nom = localStorage.getItem('nom');
   const prenom = localStorage.getItem('prenom');
   const type_utilisateur = localStorage.getItem('type_utilisateur');
   const ident = localStorage.getItem('ident');
 
+  useEffect(() => {
+    const fetchNotifications = async () => {
+      try {
+        const response = await fetch("http://127.0.0.1:8000/api/choixBinome", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ id_etu2: 5 }),
+        });
+
+        const data = await response.json();
+        console.log(data); 
+
+        if (data.status === 'success') {
+          // Map the data into notifications array with unique id and message
+          const themes = data.data.map((item, index) => ({
+            id: index + 1, // Generate a unique id for each notification
+            message: `${item.titre_theme} - ${item.nom} ${item.prenom}` // Combine titre_theme, nom, and prenom
+          }));
+        
+          setNotifications(themes);
+          setUnreadCount(themes.length); // Set unread count based on the notifications length
+        }
+        
+      } catch (error) {
+        console.error('There was an error fetching notifications!', error);
+      }
+    };
+
+    fetchNotifications();
+  }, []); 
 
   const toggleNotifications = () => {
     setShowNotifications(!showNotifications);

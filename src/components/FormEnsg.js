@@ -1,24 +1,62 @@
 import React, { useState } from "react";
-import "./FormEtud.css"; // Importation du CSS
+import axios from "axios";
+import "./FormEtud.css"; 
 
 
-const FormEnsg = ({ onSubmit, initialData = {} }) => {
+const FormEnsg = ({ data, setActiveComponent }) => {
+  console.log(data.id_ens+'ff');
   const [student, setStudent] = useState({
-    firstName: initialData.firstName || "",
-    lastName: initialData.lastName || "",
-    email: initialData.email || "",
-    date: initialData.date || "",
-    grades: initialData.grades || "",
+    nom: data.nom || "",
+    prenom: data.prenom || "",
+    adresse_email: data.adresse_email || "",
+    date_recrutement: data.date_recrutement || "",
+    grade_ens: data.grade_ens || "",
+    id_utilisateur: data.id_utilisateur || "",
+    password: "password",
+    type_utilisateur: "enseignant",
+    est_responsable: data.est_responsable ||"",
   });
-
+  const [successMessage, setSuccessMessage] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
   const handleChange = (e) => {
-    const { name, value } = e.target;
+    let { name, value } = e.target;
+    console.log(name + value + ' fffffffff');
+  
+ 
+    if (value === 'true') {
+      value = 1;
+    } else if (value === 'false') {
+      value = 0;
+    }
+  
+    console.log(name + value + ' wwwwwwwwwwwwwwwww');
     setStudent({ ...student, [name]: value });
   };
+  
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    onSubmit(student);
+    console.log(student, 't');
+    console.log(student, 't');
+    try {
+      if(data.id_utilisateur){
+        await axios.put(`http://127.0.0.1:8000/api/enseignants/${data.id_ens}`, student, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+    }
+    else {
+
+      await axios.post("http://127.0.0.1:8000/api/enseignants", student);
+      setSuccessMessage("Les données ont été envoyées avec succès!");
+      setErrorMessage(""); 
+    }
+      
+      setActiveComponent(student); 
+    } catch (error) {
+      console.error("Error updating data:", error.response ? error.response.data : error.message);
+    }
   };
 
   return (
@@ -31,8 +69,8 @@ const FormEnsg = ({ onSubmit, initialData = {} }) => {
           <input
             type="text"
             id="firstName"
-            name="firstName"
-            value={student.firstName}
+            name="nom"
+            value={student.nom}
             onChange={handleChange}
             required
           />
@@ -43,8 +81,8 @@ const FormEnsg = ({ onSubmit, initialData = {} }) => {
           <input
             type="text"
             id="lastName"
-            name="lastName"
-            value={student.lastName}
+            name="prenom"
+            value={student.prenom}
             onChange={handleChange}
             required
           />
@@ -58,8 +96,8 @@ const FormEnsg = ({ onSubmit, initialData = {} }) => {
           <input
             type="email"
             id="email"
-            name="email"
-            value={student.email}
+            name="adresse_email"
+            value={student.adresse_email}
             onChange={handleChange}
             required
           />
@@ -71,8 +109,8 @@ const FormEnsg = ({ onSubmit, initialData = {} }) => {
             type="date"
             step="0.01"
             id="average"
-            name="average"
-            value={student.date}
+            name="date_recrutement"
+            value={student.date_recrutement}
             onChange={handleChange}
             required
           />
@@ -85,8 +123,8 @@ const FormEnsg = ({ onSubmit, initialData = {} }) => {
   <label htmlFor="grades">Grades :</label>
   <select
     id="grades"
-    name="grades"
-    value={student.grades}
+    name="grade_ens"
+    value={student.grade_ens}
     onChange={handleChange}
     required
   >
@@ -94,14 +132,24 @@ const FormEnsg = ({ onSubmit, initialData = {} }) => {
     <option value="A">A</option>
     <option value="B">B</option>
     <option value="C">C</option>
-    <option value="D">D</option>
-    <option value="E">E</option>
-    <option value="F">F</option>
   </select>
 </div>
 
 
-        <div className="column"></div> {/* Colonne vide pour équilibrer */}
+        <div className="column">
+        <label htmlFor="grades">Grades :</label>
+  <select
+    id="grades"
+    name="est_responsable"
+    value={student.est_responsable}
+    onChange={handleChange}
+    required
+  >
+    <option value="" disabled>-- Sélectionnez un grade --</option>
+    <option value="true">Oui</option>
+    <option value="false">Non</option>
+  </select>
+  </div> {/* Colonne vide pour équilibrer */}
       </div>
 
       {/* Bouton de soumission */}
