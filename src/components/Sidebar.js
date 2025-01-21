@@ -209,7 +209,7 @@ const Sidebar = ({ setActiveComponent }) => {
         boxSizing: "border-box", 
         display: "flex",
         flexDirection: "column",  // Use flex to arrange items vertically
-        justifyContent: "space-between", // Space between items, pushing the bottom items down
+        justifyContent: "space-between", // Space between items, pushing the bottom items down 
       }}
     >
       <div className={styles2.logo}>LOGO</div>
